@@ -3,61 +3,90 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1d3b34">
   <title>Híbridos na Serra</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<main>
-  <header>
+<header class="hero">
+  <svg class="hero-mountains" viewBox="0 0 800 160" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 160 L0 110 L90 70 L160 95 L260 30 L340 80 L420 50 L520 105 L600 60 L700 90 L800 40 L800 160 Z" fill="rgba(255,255,255,0.06)"/>
+    <path d="M0 160 L0 130 L120 100 L210 120 L330 75 L450 115 L560 85 L680 120 L800 95 L800 160 Z" fill="rgba(255,255,255,0.08)"/>
+    <path d="M0 132 C 160 128, 240 104, 330 78 S 520 70, 600 62 S 740 48, 800 42" fill="none" stroke="#f2b134" stroke-width="2.5" stroke-dasharray="6 6" stroke-linecap="round"/>
+  </svg>
+  <div class="hero-inner">
+    <p class="eyebrow">Simulador de subida</p>
     <h1>Híbridos na serra</h1>
-    <p class="muted">Song Plus 2027, Song Plus 2024 e Geely EX5 EM-i subindo serras do Sudeste e do Sul. Modelo físico com premissas documentadas em <code>docs/modelo.md</code>.</p>
-  </header>
+    <p class="lede">Song Plus 2027, Song Plus 2024 e Geely EX5 EM-i em serras do Sudeste e do Sul. Modelo físico com premissas documentadas em <code>docs/modelo.md</code>.</p>
+  </div>
+</header>
 
-  <section class="controls">
-    <div class="row"><label for="climb">Subida</label><select id="climb"></select></div>
-    <p id="info" class="note"></p>
-    <div class="row"><label for="style">Condução</label><select id="style"></select></div>
-    <div class="row"><label for="b24">Bateria Song 2024</label><select id="b24"></select></div>
-    <div class="row"><label for="approach">Plano antes</label><input type="range" id="approach" min="0" max="30" step="1"><output id="approachOut"></output></div>
-    <div class="row"><label for="length">Extensão serra</label><input type="range" id="length" min="1" max="40" step="0.1"><output id="lengthOut"></output></div>
-    <div class="row"><label for="gain">Desnível</label><input type="range" id="gain" min="50" max="2000" step="10"><output id="gainOut"></output></div>
-    <div class="row"><label for="soc0">Carga inicial</label><input type="range" id="soc0" min="10" max="100" step="2" value="50"><output id="soc0Out"></output></div>
-    <div class="row"><label for="threshold">Limiar do térmico</label><input type="range" id="threshold" min="15" max="70" step="5" value="25"><output id="thresholdOut"></output></div>
-    <div class="row"><label for="speed">Velocidade</label><input type="range" id="speed" min="30" max="100" step="5" value="60"><output id="speedOut"></output></div>
-    <div class="row"><label for="extra">Carga extra</label><input type="range" id="extra" min="0" max="500" step="25" value="150"><output id="extraOut"></output></div>
+<main>
+  <section class="panel controls" aria-label="Parâmetros">
+    <div class="field field-climb">
+      <label for="climb">Subida</label>
+      <select id="climb"></select>
+      <p id="info" class="info"></p>
+    </div>
+
+    <div class="groups">
+      <fieldset>
+        <legend>Percurso</legend>
+        <div class="row"><label for="approach">Plano antes</label><input type="range" id="approach" min="0" max="30" step="1"><output id="approachOut"></output></div>
+        <div class="row"><label for="length">Extensão da serra</label><input type="range" id="length" min="1" max="40" step="0.1"><output id="lengthOut"></output></div>
+        <div class="row"><label for="gain">Desnível</label><input type="range" id="gain" min="50" max="2000" step="10"><output id="gainOut"></output></div>
+        <div class="row"><label for="speed">Velocidade</label><input type="range" id="speed" min="30" max="100" step="5" value="60"><output id="speedOut"></output></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Carro e condução</legend>
+        <div class="row"><label for="style">Condução</label><select id="style"></select></div>
+        <div class="row"><label for="b24">Bateria Song 2024</label><select id="b24"></select></div>
+        <div class="row"><label for="soc0">Carga inicial</label><input type="range" id="soc0" min="10" max="100" step="2" value="50"><output id="soc0Out"></output></div>
+        <div class="row"><label for="threshold">Limiar do térmico</label><input type="range" id="threshold" min="15" max="70" step="5" value="25"><output id="thresholdOut"></output></div>
+        <div class="row"><label for="extra">Carga extra</label><input type="range" id="extra" min="0" max="500" step="25" value="150"><output id="extraOut"></output></div>
+      </fieldset>
+    </div>
   </section>
 
-  <section id="cards" class="cards"></section>
+  <h2 class="section-title">Resultado no topo</h2>
+  <section id="cards" class="cards" aria-live="polite"></section>
 
-  <h2>Perfil da subida</h2>
-  <div class="chart short"><canvas id="altChart" role="img" aria-label="Altitude ao longo do percurso"></canvas></div>
+  <section class="panel">
+    <h2>Perfil da subida</h2>
+    <div class="chart short"><canvas id="altChart" role="img" aria-label="Altitude ao longo do percurso"></canvas></div>
+  </section>
 
-  <h2>Carga da bateria</h2>
-  <div class="legend" id="socLegend"></div>
-  <div class="chart"><canvas id="socChart" role="img" aria-label="Estado de carga por quilômetro dos três carros"></canvas></div>
+  <section class="panel">
+    <h2>Carga da bateria</h2>
+    <div class="legend" id="socLegend"></div>
+    <div class="chart"><canvas id="socChart" role="img" aria-label="Estado de carga por quilômetro dos três carros"></canvas></div>
+  </section>
 
-  <h2>Modo de operação</h2>
-  <div class="tabs" id="carTabs"></div>
-  <div class="strip" id="strip"></div>
-  <div class="axis"><span>0 km</span><span id="endKm"></span></div>
-  <div class="legend">
-    <span><i style="background:#5DCAA5"></i>Elétrico</span>
-    <span><i style="background:#eda100"></i>Térmico + recarga</span>
-    <span><i style="background:#eb6834"></i>Térmico + bateria</span>
-    <span><i style="background:#7F77DD"></i>Sem fôlego na retomada</span>
-    <span><i style="background:#e34948"></i>Velocidade cai</span>
-  </div>
+  <section class="panel">
+    <h2>Modo de operação</h2>
+    <div class="tabs" id="carTabs" role="tablist"></div>
+    <div class="strip" id="strip"></div>
+    <div class="axis"><span>0 km</span><span id="endKm"></span></div>
+    <div class="legend">
+      <span><i style="background:#5DCAA5"></i>Elétrico</span>
+      <span><i style="background:#eda100"></i>Térmico + recarga</span>
+      <span><i style="background:#eb6834"></i>Térmico + bateria</span>
+      <span><i style="background:#7F77DD"></i>Sem fôlego na retomada</span>
+      <span><i style="background:#e34948"></i>Velocidade cai</span>
+    </div>
 
-  <h2>Potência do carro selecionado</h2>
-  <div class="legend">
-    <span><i style="background:#5F5E5A"></i>Máximo disponível nas rodas</span>
-    <span><i style="background:#898781"></i>Pedida pelo motorista (tracejado)</span>
-    <span><i style="background:#eda100"></i>Térmico</span>
-    <span><i style="background:#1baf7a"></i>Bateria (negativo = recarregando)</span>
-  </div>
-  <div class="chart"><canvas id="powerChart" role="img" aria-label="Potências por quilômetro do carro selecionado"></canvas></div>
+    <h3 class="sub">Potência do carro selecionado</h3>
+    <div class="legend">
+      <span><i style="background:#5F5E5A"></i>Máximo nas rodas</span>
+      <span><i class="dashed"></i>Pedida pelo motorista</span>
+      <span><i style="background:#eda100"></i>Térmico</span>
+      <span><i style="background:#1baf7a"></i>Bateria (negativo = recarregando)</span>
+    </div>
+    <div class="chart"><canvas id="powerChart" role="img" aria-label="Potências por quilômetro do carro selecionado"></canvas></div>
+  </section>
 
-  <p class="note">Estimativas, não medições. Fontes e premissas em <code>docs/</code>.</p>
+  <p class="footnote">Estimativas, não medições. Fontes e premissas em <code>docs/</code>.</p>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script type="module" src="src/ui/app.js"></script>

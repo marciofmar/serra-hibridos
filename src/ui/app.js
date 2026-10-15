@@ -22,7 +22,7 @@ function fillSelects() {
   $('style').value = 'n';
   const s24 = cars.find(c => c.id === 's24');
   $('b24').innerHTML = s24.batteryOptions.map((o, i) => `<option value="${i}">${o.label}</option>`).join('');
-  $('carTabs').innerHTML = cars.map((c, i) => `<button data-i="${i}">${c.name}</button>`).join('');
+  $('carTabs').innerHTML = cars.map((c, i) => `<button role="tab" data-i="${i}"><i style="background:${c.color}"></i>${c.name}</button>`).join('');
   $('socLegend').innerHTML = cars.map(c => `<span><i style="background:${c.color}"></i>${c.name}</span>`).join('') +
     '<span><i style="background:#898781"></i>Limiar</span>';
 }
@@ -49,21 +49,25 @@ function readInputs() {
 }
 
 // ---------- Gráficos ----------
-const tick = '#898781';
-const grid = matchMedia('(prefers-color-scheme: dark)').matches ? '#2c2c2a' : '#e1e0d9';
+const css = getComputedStyle(document.documentElement);
+const tick = css.getPropertyValue('--muted').trim() || '#898781';
+const grid = css.getPropertyValue('--grid').trim() || '#e1e0d9';
+const accent = css.getPropertyValue('--accent').trim() || '#1f7a5c';
+Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+Chart.defaults.font.size = 11;
 function makeChart(id, yTitle, unit) {
   return new Chart($(id), {
     type: 'line', data: { datasets: [] },
     options: {
       responsive: true, maintainAspectRatio: false, animation: false,
       interaction: { mode: 'index', intersect: false },
-      plugins: { legend: { display: false }, tooltip: { callbacks: {
+      plugins: { legend: { display: false }, tooltip: { padding: 10, cornerRadius: 8, boxPadding: 4, callbacks: {
         title: t => t[0].parsed.x.toFixed(1) + ' km',
         label: i => `${i.dataset.label}: ${Math.round(i.parsed.y)}${unit}` } } },
       elements: { point: { radius: 0 }, line: { borderWidth: 1.5 } },
       scales: {
         x: { type: 'linear', min: 0, title: { display: true, text: 'km', color: tick }, ticks: { color: tick, maxTicksLimit: 8 }, grid: { display: false } },
-        y: { title: { display: true, text: yTitle, color: tick }, ticks: { color: tick }, grid: { color: grid } }
+        y: { title: { display: true, text: yTitle, color: tick }, ticks: { color: tick }, grid: { color: grid }, border: { display: false } }
       }
     }
   });
@@ -88,6 +92,8 @@ function run() {
   $('thresholdOut').textContent = `${inp.threshold}%`;
   $('speedOut').textContent = `${inp.speedKmh} km/h`;
   $('extraOut').textContent = `${inp.extraKg} kg`;
+  document.querySelectorAll('input[type=range]').forEach(r =>
+    r.style.setProperty('--p', `${(r.value - r.min) / (r.max - r.min) * 100}%`));
   const gradeText = inp.climb.segments
     ? `Inclinações de ${fmt1(Math.min(...profile.grades))}% a ${fmt1(Math.max(...profile.grades))}%`
     : `Serra com média de ${fmt1(inp.G / (inp.L * 10))}%`;
@@ -95,7 +101,15 @@ function run() {
   $('endKm').textContent = `${fmt1(profile.totalKm)} km`;
   [altChart, socChart, powerChart].forEach(ch => (ch.options.scales.x.max = +profile.totalKm.toFixed(1)));
 
-  altChart.data.datasets = [{ label: 'Altitude', borderColor: '#888780', backgroundColor: 'rgba(136,135,128,0.12)', fill: true,
+  altChart.data.datasets = [{ label: 'Altitude', borderColor: accent, borderWidth: 2, fill: true,
+    backgroundColor: ctx => {
+      const { chartArea, ctx: g } = ctx.chart;
+      if (!chartArea) return 'transparent';
+      const grad = g.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+      grad.addColorStop(0, accent + '55');
+      grad.addColorStop(1, accent + '05');
+      return grad;
+    },
     data: [{ x: 0, y: profile.startAlt }].concat(results[0].points.filter((p, j) => j % 2 === 1).map(p => ({ x: p.km, y: p.alt }))) }];
   altChart.update();
 
@@ -106,11 +120,21 @@ function run() {
 
   $('cards').innerHTML = cars.map((c, i) => {
     const s = summarize(results[i], inp.speedKmh);
-    return `<div class="card"><h3>${c.name}${c.id === 's24' ? ` (${fmt1(c.battery)} kWh)` : ''}</h3>
-      <p class="big">${Math.round(s.finalSoc)}% <span style="font-size:13px;font-weight:400">no topo</span></p>
-      <p>${fmt1(s.fuelL)} L de gasolina · ${fmt1(s.evKm)} km elétrico</p>
-      <p class="${s.weakKm > 0 ? 'bad' : ''}">Sem fôlego: ${fmt1(s.weakKm)} km</p>
-      <p class="${s.speedDropped ? 'bad' : ''}">Velocidade mínima: ${Math.round(s.minSpeed)} km/h</p></div>`;
+    const soc = Math.round(s.finalSoc);
+    const status = s.speedDropped ? ['bad', `Velocidade cai para ${Math.round(s.minSpeed)} km/h`]
+      : s.weakKm > 0 ? ['warn', `Fica sem fôlego em ${fmt1(s.weakKm)} km`]
+      : ['ok', 'Sobe sem perder fôlego'];
+    return `<article class="card" style="--car:${c.color}">
+      <div class="card-head"><span class="dot"></span><h3>${c.name}</h3><span class="tag">${fmt1(c.battery)} kWh</span></div>
+      <div class="soc"><span class="big">${soc}%</span><span class="unit">de bateria no topo</span></div>
+      <div class="meter" title="Linha: limiar do térmico"><span style="width:${Math.max(0, Math.min(100, soc))}%"></span><i style="left:${inp.threshold}%"></i></div>
+      <dl class="stats">
+        <div><dt>Gasolina</dt><dd>${fmt1(s.fuelL)} L</dd></div>
+        <div><dt>No elétrico</dt><dd>${fmt1(s.evKm)} km</dd></div>
+        <div><dt>Sem fôlego</dt><dd class="${s.weakKm > 0 ? 'bad' : ''}">${fmt1(s.weakKm)} km</dd></div>
+        <div><dt>Vel. mínima</dt><dd class="${s.speedDropped ? 'bad' : ''}">${Math.round(s.minSpeed)} km/h</dd></div>
+      </dl>
+      <p class="status ${status[0]}">${status[1]}</p></article>`;
   }).join('');
   drawSelected();
 }
@@ -132,7 +156,10 @@ function drawSelected() {
     { label: 'Bateria', borderColor: '#1baf7a', data: pts.map(p => ({ x: p.km, y: p.pBattery })) }
   ];
   powerChart.update();
-  document.querySelectorAll('#carTabs button').forEach((b, i) => b.classList.toggle('active', i === selectedCar));
+  document.querySelectorAll('#carTabs button').forEach((b, i) => {
+    b.classList.toggle('active', i === selectedCar);
+    b.setAttribute('aria-selected', i === selectedCar);
+  });
 }
 
 fillSelects();
