@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Híbridos na Serra</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>Híbridos na serra</h1>
+    <p class="muted">Song Plus 2027, Song Plus 2024 e Geely EX5 EM-i subindo serras do Sudeste e do Sul. Modelo físico com premissas documentadas em <code>docs/modelo.md</code>.</p>
+  </header>
+
+  <section class="controls">
+    <div class="row"><label for="climb">Subida</label><select id="climb"></select></div>
+    <p id="info" class="note"></p>
+    <div class="row"><label for="style">Condução</label><select id="style"></select></div>
+    <div class="row"><label for="b24">Bateria Song 2024</label><select id="b24"></select></div>
+    <div class="row"><label for="approach">Plano antes</label><input type="range" id="approach" min="0" max="30" step="1"><output id="approachOut"></output></div>
+    <div class="row"><label for="length">Extensão serra</label><input type="range" id="length" min="1" max="40" step="0.1"><output id="lengthOut"></output></div>
+    <div class="row"><label for="gain">Desnível</label><input type="range" id="gain" min="50" max="2000" step="10"><output id="gainOut"></output></div>
+    <div class="row"><label for="soc0">Carga inicial</label><input type="range" id="soc0" min="10" max="100" step="2" value="50"><output id="soc0Out"></output></div>
+    <div class="row"><label for="threshold">Limiar do térmico</label><input type="range" id="threshold" min="15" max="70" step="5" value="25"><output id="thresholdOut"></output></div>
+    <div class="row"><label for="speed">Velocidade</label><input type="range" id="speed" min="30" max="100" step="5" value="60"><output id="speedOut"></output></div>
+    <div class="row"><label for="extra">Carga extra</label><input type="range" id="extra" min="0" max="500" step="25" value="150"><output id="extraOut"></output></div>
+  </section>
+
+  <section id="cards" class="cards"></section>
+
+  <h2>Perfil da subida</h2>
+  <div class="chart short"><canvas id="altChart" role="img" aria-label="Altitude ao longo do percurso"></canvas></div>
+
+  <h2>Carga da bateria</h2>
+  <div class="legend" id="socLegend"></div>
+  <div class="chart"><canvas id="socChart" role="img" aria-label="Estado de carga por quilômetro dos três carros"></canvas></div>
+
+  <h2>Modo de operação</h2>
+  <div class="tabs" id="carTabs"></div>
+  <div class="strip" id="strip"></div>
+  <div class="axis"><span>0 km</span><span id="endKm"></span></div>
+  <div class="legend">
+    <span><i style="background:#5DCAA5"></i>Elétrico</span>
+    <span><i style="background:#eda100"></i>Térmico + recarga</span>
+    <span><i style="background:#eb6834"></i>Térmico + bateria</span>
+    <span><i style="background:#7F77DD"></i>Sem fôlego na retomada</span>
+    <span><i style="background:#e34948"></i>Velocidade cai</span>
+  </div>
+
+  <h2>Potência do carro selecionado</h2>
+  <div class="legend">
+    <span><i style="background:#5F5E5A"></i>Máximo disponível nas rodas</span>
+    <span><i style="background:#898781"></i>Pedida pelo motorista (tracejado)</span>
+    <span><i style="background:#eda100"></i>Térmico</span>
+    <span><i style="background:#1baf7a"></i>Bateria (negativo = recarregando)</span>
+  </div>
+  <div class="chart"><canvas id="powerChart" role="img" aria-label="Potências por quilômetro do carro selecionado"></canvas></div>
+
+  <p class="note">Estimativas, não medições. Fontes e premissas em <code>docs/</code>.</p>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script type="module" src="src/ui/app.js"></script>
+</body>
+</html>

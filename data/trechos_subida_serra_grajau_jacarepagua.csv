@@ -1,0 +1,11 @@
+Vertente,Trecho,Referencia_Inicial,Referencia_Final,Distancia_km,KM_Inicial,KM_Final,Altitude_Inicial_m,Altitude_Final_m,Ganho_Elevacao_m,Inclinacao_Media_pct,Lat_Inicial,Lon_Inicial,Lat_Final,Lon_Final
+Sentido Grajau -> Topo,Trecho 1,Pe da Serra no Grajau (R. Jose do Patrocinio / R. Barao do Bom Retiro),Inicio da Encosta (Av. Menezes Cortes),1.0,0.0,1.0,22,60,38,3.8,-22.91355,-43.26447,-22.91680,-43.27250
+Sentido Grajau -> Topo,Trecho 2,Inicio da Encosta (Av. Menezes Cortes),Acesso Reserva Florestal do Lins,1.0,1.0,2.0,60,135,75,7.5,-22.91680,-43.27250,-22.92010,-43.28010
+Sentido Grajau -> Topo,Trecho 3,Acesso Reserva Florestal do Lins,Subida Central (Serra do Lins / Bar do Zezinho),1.0,2.0,3.0,135,215,80,8.0,-22.92010,-43.28010,-22.92320,-43.28650
+Sentido Grajau -> Topo,Trecho 4,Subida Central (Serra do Lins),Curvas Superiores (Encosta Alta),1.0,3.0,4.0,215,285,70,7.0,-22.92320,-43.28650,-22.92380,-43.28950
+Sentido Grajau -> Topo,Trecho 5,Curvas Superiores (Encosta Alta),Topo da Serra (Cabana da Serra),0.5,4.0,4.5,285,312,27,5.4,-22.92380,-43.28950,-22.92405,-43.29103
+Sentido Jacarepagua -> Topo,Aproximacao (Opcional),Estrada dos Tres Rios 2000 (Freguesia),Hospital Federal Cardoso Fontes (Av. Menezes Cortes 3245),1.4,-1.4,0.0,38,101,63,4.5,-22.93480,-43.32680,-22.92555,-43.31627
+Sentido Jacarepagua -> Topo,Trecho 1,Hospital Federal Cardoso Fontes (Av. Menezes Cortes 3245),Vale dos Tres Rios,1.0,0.0,1.0,101,155,54,5.4,-22.92555,-43.31627,-22.92450,-43.30750
+Sentido Jacarepagua -> Topo,Trecho 2,Vale dos Tres Rios,Encosta da Represa dos Ciganos,1.0,1.0,2.0,155,220,65,6.5,-22.92450,-43.30750,-22.92210,-43.29910
+Sentido Jacarepagua -> Topo,Trecho 3,Encosta da Represa dos Ciganos,Subida Central (Serra dos Pretos-Forros),1.0,2.0,3.0,220,285,65,6.5,-22.92210,-43.29910,-22.92310,-43.29380
+Sentido Jacarepagua -> Topo,Trecho 4,Subida Central (Serra dos Pretos-Forros),Topo da Serra (Cabana da Serra),0.5,3.0,3.5,285,312,27,5.4,-22.92310,-43.29380,-22.92405,-43.29103

@@ -1,0 +1,12 @@
+{
+  "name": "serra-hibridos",
+  "version": "1.0.0",
+  "description": "Simulador de consumo e desempenho de híbridos plug-in (Song Plus 2027, Song Plus 2024, Geely EX5 EM-i) em subidas de serra",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "npx --yes serve -l 5173 .",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": { "node": ">=18" }
+}
