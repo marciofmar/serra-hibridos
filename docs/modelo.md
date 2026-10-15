@@ -42,6 +42,16 @@ Potência pedida = F × v. Nas retomadas soma-se `m · a · v`.
 | WEAK | roxo | mantém a velocidade, mas não entrega a aceleração pedida |
 | LIM | vermelho | nem a velocidade de cruzeiro se sustenta |
 
+## Fases da viagem animada
+
+Os modos alternam dentro de cada bloco de retomada, então a animação agrupa os pontos em fases (`src/model/phases.js`):
+
+- cada bloco de 500 m recebe o modo mais exigente que teve, na ordem EV < CHG < BAT < WEAK < LIM;
+- blocos vizinhos com o mesmo modo viram uma fase;
+- uma fase de um bloco só, entre duas fases iguais, é absorvida por elas.
+
+A estrada e a etiqueta sobre o carro mostram o modo instantâneo. O quadro de fase e a lista "Fases da viagem" mostram as fases agrupadas. O desenho exagera a inclinação para caber na tela.
+
 ## Estilos de condução
 
 A cada bloco de 500 m, uma fração do trecho pede aceleração extra:
@@ -66,6 +76,7 @@ As versões abaixo surgiram de questionamentos do usuário. Elas explicam por qu
    - reserva de recarga abaixo do limiar.
    Resultado: com ultrapassagens, o Song 2024 fica sem fôlego por mais tempo que o 2027, e um limiar de 50% elimina a falta de fôlego, como recomenda a análise publicada.
 6. **Perfil real da Grajaú–Jacarepaguá** por trechos, enviado pelo usuário (`data/`).
+7. **Viagem animada.** Cada ponto da simulação passou a guardar a inclinação do trecho e a gasolina acumulada, usadas pela animação. Os resultados do modelo não mudaram.
 
 ## Ideias para calibrar
 

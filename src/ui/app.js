@@ -2,8 +2,9 @@ import { VEHICLES } from '../model/vehicles.js';
 import { CLIMBS, totals, buildProfile } from '../model/climbs.js';
 import { simulate, summarize } from '../model/simulate.js';
 import { DRIVING_STYLES } from '../model/config.js';
+import { MODES } from './modes.js';
+import { createRide } from './ride.js';
 
-const MODE_COLORS = { EV: '#5DCAA5', CHG: '#eda100', BAT: '#eb6834', WEAK: '#7F77DD', LIM: '#e34948' };
 const $ = id => document.getElementById(id);
 const fmt1 = x => x.toFixed(1).replace('.', ',');
 
@@ -22,7 +23,9 @@ function fillSelects() {
   $('style').value = 'n';
   const s24 = cars.find(c => c.id === 's24');
   $('b24').innerHTML = s24.batteryOptions.map((o, i) => `<option value="${i}">${o.label}</option>`).join('');
-  $('carTabs').innerHTML = cars.map((c, i) => `<button role="tab" data-i="${i}"><i style="background:${c.color}"></i>${c.name}</button>`).join('');
+  const tabs = cars.map((c, i) => `<button role="tab" data-i="${i}"><i style="background:${c.color}"></i>${c.name}</button>`).join('');
+  $('carTabs').innerHTML = tabs;
+  $('rideTabs').innerHTML = tabs;
   $('socLegend').innerHTML = cars.map(c => `<span><i style="background:${c.color}"></i>${c.name}</span>`).join('') +
     '<span><i style="background:#898781"></i>Limiar</span>';
 }
@@ -78,10 +81,16 @@ const powerChart = makeChart('powerChart', 'kW', ' kW');
 socChart.options.scales.y.min = 0;
 socChart.options.scales.y.max = 100;
 
+const ride = createRide({
+  canvas: $('rideCanvas'), phase: $('ridePhase'), hud: $('rideHud'), log: $('rideLog'), clock: $('rideClock'),
+  play: $('ridePlay'), restart: $('rideRestart'), scrub: $('rideScrub'), rate: $('rideRate')
+});
+let profile = null;
+
 // ---------- Execução ----------
 function run() {
   const inp = readInputs();
-  const profile = buildProfile(inp.climb, inp);
+  profile = buildProfile(inp.climb, inp);
   const opts = { startAlt: profile.startAlt, soc0: inp.soc0, threshold: inp.threshold, speedKmh: inp.speedKmh, extraKg: inp.extraKg, style: inp.style };
   results = cars.map(c => simulate(c, profile.segments, opts));
 
@@ -145,7 +154,7 @@ function drawSelected() {
   for (let i = 0; i < pts.length;) {
     let j = i;
     while (j < pts.length && pts[j].mode === pts[i].mode) j++;
-    html += `<div style="flex:${j - i};background:${MODE_COLORS[pts[i].mode]}"></div>`;
+    html += `<div style="flex:${j - i};background:${MODES[pts[i].mode].color}"></div>`;
     i = j;
   }
   $('strip').innerHTML = html;
@@ -156,18 +165,20 @@ function drawSelected() {
     { label: 'Bateria', borderColor: '#1baf7a', data: pts.map(p => ({ x: p.km, y: p.pBattery })) }
   ];
   powerChart.update();
-  document.querySelectorAll('#carTabs button').forEach((b, i) => {
-    b.classList.toggle('active', i === selectedCar);
-    b.setAttribute('aria-selected', i === selectedCar);
+  document.querySelectorAll('#carTabs button, #rideTabs button').forEach(b => {
+    const on = +b.dataset.i === selectedCar;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-selected', on);
   });
+  ride.setData({ points: pts, car: cars[selectedCar], startAlt: profile.startAlt });
 }
 
 fillSelects();
 ['approach', 'length', 'gain', 'soc0', 'threshold', 'speed', 'extra'].forEach(id => $(id).addEventListener('input', run));
 ['style', 'b24'].forEach(id => $(id).addEventListener('change', run));
 $('climb').addEventListener('change', applyPreset);
-$('carTabs').addEventListener('click', e => {
+['carTabs', 'rideTabs'].forEach(id => $(id).addEventListener('click', e => {
   const b = e.target.closest('button');
   if (b) { selectedCar = +b.dataset.i; drawSelected(); }
-});
+}));
 applyPreset();

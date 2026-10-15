@@ -105,7 +105,7 @@ export function simulate(car, segments, opts) {
       pos += STEP_M;
       alt += STEP_M * grade / 100;
 
-      points.push({ km: +km.toFixed(2), alt, soc, pWanted, pEngine, pBattery, pAvail, speedKmh: v * 3.6, mode });
+      points.push({ km: +km.toFixed(2), alt, soc, pWanted, pEngine, pBattery, pAvail, speedKmh: v * 3.6, mode, grade, fuelL });
     }
   }
   return { points, fuelL };

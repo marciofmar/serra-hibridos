@@ -52,6 +52,42 @@
   <h2 class="section-title">Resultado no topo</h2>
   <section id="cards" class="cards" aria-live="polite"></section>
 
+  <section class="panel ride" aria-label="Viagem animada">
+    <div class="ride-head">
+      <h2>Viagem animada</h2>
+      <span class="ride-clock" id="rideClock"></span>
+    </div>
+    <div class="tabs" id="rideTabs" role="tablist"></div>
+    <div class="phase" id="ridePhase" aria-live="polite"></div>
+    <div class="ride-stage">
+      <canvas id="rideCanvas" role="img" aria-label="Carro subindo o perfil da serra, com a estrada colorida pelo modo de operação"></canvas>
+    </div>
+    <div class="ride-controls">
+      <button type="button" class="play" id="ridePlay" aria-label="Reproduzir"><i aria-hidden="true"></i><span>Subir</span></button>
+      <button type="button" class="icon-btn" id="rideRestart" aria-label="Voltar ao início" title="Voltar ao início">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <input type="range" id="rideScrub" min="0" max="1" step="0.05" value="0" aria-label="Posição no percurso (km)">
+    </div>
+    <div class="rate" id="rideRate" role="group" aria-label="Velocidade da animação">
+      <span>Ritmo</span>
+      <button type="button" data-rate="30">30×</button><button type="button" data-rate="60" class="active">60×</button><button type="button" data-rate="120">120×</button><button type="button" data-rate="240">240×</button>
+    </div>
+    <dl class="hud" id="rideHud">
+      <div><dt>Percorrido</dt><dd data-k="km"></dd></div>
+      <div><dt>Altitude</dt><dd data-k="alt"></dd></div>
+      <div><dt>Inclinação</dt><dd data-k="grade"></dd></div>
+      <div><dt>Velocidade</dt><dd data-k="speed"></dd></div>
+      <div class="hud-soc"><dt>Carga</dt><dd data-k="soc"></dd><span class="hud-bar"><span data-k="socbar"></span></span></div>
+      <div><dt>Gasolina</dt><dd data-k="fuel"></dd></div>
+      <div><dt>Motor térmico</dt><dd data-k="engine"></dd></div>
+      <div><dt data-k="batlabel">Bateria</dt><dd data-k="battery"></dd></div>
+    </dl>
+    <h3 class="sub">Fases da viagem</h3>
+    <ol class="log" id="rideLog"></ol>
+    <p class="hint">Inclinação exagerada no desenho para caber na tela. Toque numa fase para pular até ela.</p>
+  </section>
+
   <section class="panel">
     <h2>Perfil da subida</h2>
     <div class="chart short"><canvas id="altChart" role="img" aria-label="Altitude ao longo do percurso"></canvas></div>

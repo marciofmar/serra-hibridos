@@ -17,7 +17,10 @@ Sem build e sem dependências de npm. O Chart.js vem do CDN do cdnjs em `index.h
 - `src/model/vehicles.js` – fichas dos carros. Cada número tem comentário `src:` (fonte) ou `est:` (estimativa).
 - `src/model/climbs.js` – subidas pré-configuradas e `buildProfile`, que transforma preset + ajustes em segmentos `[[km, %], ...]`.
 - `src/model/simulate.js` – simulação passo a passo (50 m). Função pura, sem DOM.
+- `src/model/phases.js` – agrupa os pontos da simulação em fases para a viagem animada.
 - `src/ui/app.js` – interface: controles, cartões e gráficos.
+- `src/ui/ride.js` – viagem animada (canvas): carro subindo o perfil, fases, painel e controles.
+- `src/ui/modes.js` – cores e textos dos modos de operação.
 - `data/` – dados brutos enviados pelo usuário (perfil por trechos da Grajaú–Jacarepaguá).
 - `docs/modelo.md` – física, estratégia de controle e histórico de correções. Leia antes de mudar o modelo.
 - `docs/fontes.md` – fontes de cada dado.

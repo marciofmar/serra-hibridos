@@ -6,6 +6,7 @@
   --radius: 14px; --radius-sm: 9px;
   --shadow: 0 1px 2px rgba(20,24,30,0.05), 0 4px 16px rgba(20,24,30,0.06);
   --grid: #e6e3da;
+  --sky-1: #dcebf2; --sky-2: #f6f3ea; --ground-1: #9cc5a1; --ground-2: #d9e6cf; --road: #c8c4b8;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -15,6 +16,7 @@
     --ok: #4cc497; --warn: #f0a640; --danger: #ee6b6b;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 6px 20px rgba(0,0,0,0.25);
     --grid: #2a2e2b;
+    --sky-1: #121c24; --sky-2: #1a1f1d; --ground-1: #2b4a3a; --ground-2: #1c2622; --road: #3d423f;
   }
 }
 
@@ -107,6 +109,50 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 .tabs button.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
 .strip { display: flex; height: 22px; border-radius: 7px; overflow: hidden; }
 .axis { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin: 4px 0 10px; }
+
+/* ---------- Viagem animada ---------- */
+.ride-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.ride-clock { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.phase { display: flex; gap: 10px; align-items: flex-start; min-height: 74px; padding: 10px 12px; margin-bottom: 10px; border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--mode, var(--accent)) 14%, var(--surface)); border-left: 4px solid var(--mode, var(--accent)); transition: background .3s, border-color .3s; }
+.phase-dot { width: 12px; height: 12px; margin-top: 5px; border-radius: 50%; background: var(--mode); flex: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--mode) 30%, transparent); }
+.phase strong { display: block; font-size: 15px; }
+.phase span:not(.phase-dot) { display: block; font-size: 13px; color: var(--text-2); line-height: 1.4; }
+.phase small { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+.ride-stage { position: relative; height: 240px; margin: 0 -4px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); }
+.ride-stage canvas { display: block; width: 100%; height: 100%; }
+@media (min-width: 720px) { .ride-stage { height: 300px; } }
+
+.ride-controls { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+.ride-controls input[type=range] { flex: 1; }
+.play { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px 9px 13px; border: 0; border-radius: 999px; background: var(--accent); color: #fff; font: inherit; font-size: 14px; font-weight: 650; cursor: pointer; min-width: 98px; }
+.play i { width: 0; height: 0; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor; }
+.play.playing i { width: 10px; height: 12px; border: 0; border-left: 3.5px solid currentColor; border-right: 3.5px solid currentColor; }
+.icon-btn { display: inline-grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--border); border-radius: 50%; background: var(--surface-2); color: var(--text-2); cursor: pointer; flex: none; }
+.rate { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 10px; font-size: 12px; color: var(--muted); }
+.rate span { margin-right: 4px; }
+.rate button { border: 1px solid var(--border); background: transparent; color: var(--text-2); border-radius: 999px; padding: 3px 10px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+.rate button.active { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+
+.hud { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin: 14px 0 0; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+.hud > div { background: var(--surface); padding: 8px 10px; min-width: 0; position: relative; }
+.hud dt { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hud dd { margin: 0; font-size: 15px; font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.hud-bar { position: absolute; left: 10px; right: 10px; bottom: 5px; height: 3px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.hud-bar span { display: block; height: 100%; }
+@media (max-width: 420px) { .hud > div { padding: 7px 7px; } .hud dd { font-size: 13.5px; } .hud dt { font-size: 10.5px; } }
+
+.log { list-style: none; margin: 0; padding: 0; position: relative; }
+.log::before { content: ""; position: absolute; left: 63px; top: 10px; bottom: 10px; width: 2px; background: var(--border); }
+.log li button { display: flex; align-items: flex-start; gap: 10px; width: 100%; padding: 5px 4px; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; border-radius: 8px; opacity: .45; transition: opacity .25s, background .25s; }
+.log li.reached button { opacity: 1; }
+.log li.current button { background: color-mix(in srgb, var(--mode) 12%, transparent); }
+.log-km { width: 48px; flex: none; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; padding-top: 1px; }
+.log-dot { width: 12px; height: 12px; margin-top: 4px; border-radius: 50%; background: var(--surface); border: 2.5px solid var(--mode); flex: none; position: relative; z-index: 1; }
+.log li.reached .log-dot { background: var(--mode); }
+.log-txt { font-size: 14px; font-weight: 600; line-height: 1.35; }
+.log-txt small { display: block; font-size: 12px; font-weight: 400; color: var(--muted); }
+.hint { font-size: 12px; color: var(--muted); margin: 10px 0 0; }
 
 .footnote { text-align: center; color: var(--muted); font-size: 12.5px; margin-top: 24px; }
 
