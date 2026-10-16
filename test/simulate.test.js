@@ -17,6 +17,35 @@ test('perfil por trechos da Grajaú soma 4,5 km e 290 m', () => {
   assert.deepEqual(totals(CLIMBS.grj), { L: 4.5, G: 290 });
 });
 
+test('perfis enviados pelo usuário batem com extensão e altitudes dos CSVs', () => {
+  // [id, km, altitude no pé, altitude no topo] tirados de data/*.csv
+  const esperado = [
+    ['petro', 18.7, 45, 855], ['fbg', 22, 135, 1075], ['fbgN', 9.5, 846, 1075],
+    ['cj', 18.2, 600, 1545], ['cjt', 19.2, 600, 1710], ['imig', 14, 15, 765],
+    ['mogi', 12, 20, 835], ['emb', 19.5, 535, 1133], ['embMG', 12.2, 915, 1133],
+    ['reg', 26, 475, 1669], ['regMG', 20.2, 925, 1669], ['graciosa', 19.5, 45, 925],
+    ['br277', 22, 40, 945], ['rastro', 15.4, 400, 1386], ['rocinha', 13, 130, 1230],
+    ['dona', 20, 45, 870], ['gram', 18.5, 75, 835], ['gramA', 11, 160, 495],
+    ['gramB', 15, 105, 590], ['gramC', 18, 460, 835]
+  ];
+  for (const [id, km, base, topo] of esperado) {
+    const c = CLIMBS[id];
+    const t = totals(c);
+    assert.equal(t.L, km, id);
+    assert.equal(c.alt0, base, id);
+    assert.ok(Math.abs(c.alt0 + t.G - topo) <= 2, `${id}: topo ${c.alt0 + t.G}, esperado ${topo}`);
+  }
+});
+
+test('aproximação com inclinação própria começa na altitude certa', () => {
+  const r = CLIMBS.rastro, t = totals(r);
+  const p = buildProfile(r, { ...t, approach: r.approach });
+  assert.ok(Math.abs(p.startAlt - 220) <= 1, `Lauro Müller em ${p.startAlt}`);
+  assert.equal(p.serraStartAlt, 400);
+  const semAprox = buildProfile(r, { ...t, approach: 0 });
+  assert.equal(semAprox.startAlt, 400);
+});
+
 test('esticar um perfil por trechos preserva o desnível pedido', () => {
   const p = buildProfile(CLIMBS.grj, { L: 9, G: 580, approach: 0 });
   const gain = p.segments.reduce((a, [l, g]) => a + l * g * 10, 0);
@@ -25,7 +54,7 @@ test('esticar um perfil por trechos preserva o desnível pedido', () => {
 });
 
 test('três terços mantêm a média da serra', () => {
-  const p = buildProfile(CLIMBS.rocinha, { L: 14.2, G: 1022, approach: 0 });
+  const p = buildProfile({ L: 14.2, G: 1022, alt0: 200 }, { L: 14.2, G: 1022, approach: 0 });
   const gain = p.segments.reduce((a, [l, g]) => a + l * g * 10, 0);
   assert.ok(Math.abs(gain - 1022) < 1);
 });
@@ -87,10 +116,10 @@ test('curva da bateria do Song 2024 continua a calibrada (zero em 20%, plena em 
 });
 
 test('carga da bateria nunca passa de 100% nem fica negativa', () => {
-  const climb = CLIMBS.mant1;
-  const p = buildProfile(climb, { L: 23, G: 1152 });
+  const climb = CLIMBS.reg;
+  const p = buildProfile(climb, totals(climb));
   for (const v of VEHICLES) {
-    const r = simulate({ ...v }, p.segments, { startAlt: climb.alt0, soc0: 15, threshold: 15, speedKmh: 100, extraKg: 500, style: 'f' });
+    const r = simulate({ ...v }, p.segments, { startAlt: p.startAlt, soc0: 15, threshold: 15, speedKmh: 100, extraKg: 500, style: 'f' });
     for (const pt of r.points) assert.ok(pt.soc >= 0 && pt.soc <= 100, `${v.id} soc=${pt.soc}`);
   }
 });

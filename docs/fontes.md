@@ -37,9 +37,19 @@
 
 ## Subidas
 
-- Ranking de ciclistas (Mogi–Bertioga, Mantiqueira, Graciosa, BR-277, Rio do Rastro, Dona Francisca): [Pedal.com.br](https://www.pedal.com.br/forum/escaladas-ranking-brasileiro_topic43407.html)
-- Nova Friburgo, Rocinha, Serra Nova de Campos do Jordão, medição alternativa do Rio do Rastro: [Aventrilha](https://aventrilha.com/rotas/100-subidas-mais-dificeis-brasil-ciclistas/)
-- Imigrantes, 11,48 km e rampa de projeto de 6,5%: [estudo de frenagem](http://www.sinaldetransito.com.br/artigos/frenagem-na-descida-da-rodovia-dos-imigrantes.pdf)
-- SP-123, 45 km do vale a mais de 1.600 m: [AARoads](https://wiki.aaroads.com/wiki/SP-123_(Brazil))
-- Petrópolis, 18,7 km até o portal (desnível estimado): [Caminhos de Motos](https://caminhosdemotos.com.br/serra-de-petropolis/)
-- Grajaú–Jacarepaguá: perfil por trechos enviado pelo usuário (`data/trechos_subida_serra_grajau_jacarepagua.csv`)
+Todos os perfis são por trechos, enviados pelo usuário em `data/`. Cada CSV traz a fonte de cada trecho na coluna `Fonte_URL`; as principais estão abaixo. A inclinação de cada trecho no modelo é a diferença de altitude dividida pela extensão.
+
+- Grajaú–Jacarepaguá: `data/trechos_subida_serra_grajau_jacarepagua.csv`
+- Petrópolis (BR-040): `data/01_petropolis_br040.csv`; [Caminhos de Motos](https://caminhosdemotos.com.br/serra-de-petropolis/), [Wikipedia](https://pt.wikipedia.org/wiki/BR-040)
+- Nova Friburgo (RJ-116), dois sentidos: `data/02_nova_friburgo_rj116.csv`; [Caminhos de Motos](https://caminhosdemotos.com.br/serra-de-friburgo/)
+- Campos do Jordão (SP-123), com a variante Toriba: `data/03_campos_do_jordao_sp123.csv`; [O Bicicleteiro](https://obicicleteiro.com/2019/06/20/serra-nova-campos-do-jordao-sp/)
+- Imigrantes (SP-160): `data/04_imigrantes_serra_do_mar_sp160.csv`; [Wikipedia](https://pt.wikipedia.org/wiki/Rodovia_dos_Imigrantes)
+- Mogi–Bertioga (SP-098): `data/05_mogi_bertioga_sp098.csv`; [Wikipedia](https://pt.wikipedia.org/wiki/SP-98)
+- Garganta do Embaú, dois sentidos: `data/06_cruzeiro_a_passa_quatro_mantiqueira.csv`; [Sampa Bikers](https://www.sampabikers.com.br/cicloviagem/passa-quatro-o-melhor-do-pedal-na-serra-da-mantiqueira/), [Wikipedia](https://pt.wikipedia.org/wiki/Garganta_do_Emba%C3%BA)
+- Garganta do Registro (BR-354), dois sentidos: `data/07_engenheiro_passos_a_itamonte_br354.csv`; [Caminhos de Motos](https://caminhosdemotos.com.br/serra-da-garganta-do-registro/), [Wikipedia](https://pt.wikipedia.org/wiki/Garganta_do_Registro)
+- Serra da Graciosa (PR-410): `data/08_serra_da_graciosa_pr410.csv`; [Lobi](https://lobi.com.br/estrada-da-graciosa/), [Viagens e Caminhos](https://www.viagensecaminhos.com/estrada-da-graciosa-pr/)
+- BR-277 Serra do Mar: `data/09_br277_serra_do_mar_paranagua.csv`; [Wikipedia](https://pt.wikipedia.org/wiki/BR-277)
+- Rio do Rastro (SC-390): `data/10_serra_do_rio_do_rastro_sc390.csv`; [O Bicicleteiro](https://obicicleteiro.com/2019/07/02/serra-do-rio-do-rastro/), [Viagens e Caminhos](https://www.viagensecaminhos.com/serra-do-rio-do-rastro-sc/)
+- Serra da Rocinha (BR-285): `data/11_serra_da_rocinha_br285.csv`; [Viagens e Caminhos](https://www.viagensecaminhos.com/serra-da-rocinha-br-285/)
+- Serra Dona Francisca (SC-418): `data/12_serra_dona_francisca_sc418.csv`; [Wikipedia](https://pt.wikipedia.org/wiki/SC-418), [Viagens e Caminhos](https://www.viagensecaminhos.com/serra-dona-francisca-santa-catarina/)
+- Porto Alegre a Gramado (RS-115 e Rota Romântica em três subidas): `data/13_serra_porto_alegre_gramado.csv`; [Pedal.com.br](https://www.pedal.com.br/forum/de-porto-alegre-a-gramado_topic29501.html), [topographic-map](https://pt-br.topographic-map.com/map-6h2zs/Gramado/)

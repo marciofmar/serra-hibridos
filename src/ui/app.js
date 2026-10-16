@@ -95,7 +95,7 @@ function run() {
   const opts = { startAlt: profile.startAlt, soc0: inp.soc0, threshold: inp.threshold, speedKmh: inp.speedKmh, extraKg: inp.extraKg, style: inp.style };
   results = cars.map(c => simulate(c, profile.segments, opts));
 
-  $('approachOut').textContent = `${inp.approach} km`;
+  $('approachOut').textContent = `${fmt1(inp.approach)} km`;
   $('lengthOut').textContent = `${fmt1(inp.L)} km`;
   $('gainOut').textContent = `${inp.G} m`;
   $('soc0Out').textContent = `${inp.soc0}%`;
@@ -108,7 +108,10 @@ function run() {
   const gradeText = inp.climb.segments
     ? `Inclinações de ${fmt1(Math.min(...profile.grades))}% a ${fmt1(Math.max(...profile.grades))}%`
     : `Serra com média de ${fmt1(inp.G / (inp.L * 10))}%`;
-  $('info').textContent = `${gradeText}, de ~${Math.round(profile.serraStartAlt)} m a ~${Math.round(profile.topAlt)} m. Total: ${fmt1(profile.totalKm)} km. ${inp.climb.note}.`;
+  const approachText = inp.approach > 0
+    ? ` Antes, ${fmt1(inp.approach)} km de aproximação desde ~${Math.round(profile.startAlt)} m.` : '';
+  $('info').replaceChildren(Object.assign(document.createElement('strong'), { textContent: inp.climb.name }));
+  $('info').append(`${gradeText}, de ~${Math.round(profile.serraStartAlt)} m a ~${Math.round(profile.topAlt)} m em ${fmt1(inp.L)} km.${approachText} Total: ${fmt1(profile.totalKm)} km. ${inp.climb.note}.`);
   $('endKm').textContent = `${fmt1(profile.totalKm)} km`;
   [altChart, socChart, powerChart].forEach(ch => (ch.options.scales.x.max = +profile.totalKm.toFixed(1)));
 
