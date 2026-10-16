@@ -110,7 +110,13 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 .tabs button { flex: 1; min-width: 0; padding: 8px 6px; border: 0; border-radius: 9px; background: transparent; color: var(--text-2); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; line-height: 1.25; transition: background .15s, color .15s; }
 .tabs button i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
 .tabs button.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
-.strip { display: flex; height: 22px; border-radius: 7px; overflow: hidden; }
+.strips { display: grid; gap: 10px; }
+.strip-row { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.strip-name { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--text-2); margin-bottom: 4px; }
+.strip-name i { width: 8px; height: 8px; border-radius: 50%; }
+.strip-name small { font-weight: 400; color: var(--muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+.strip { display: flex; height: 18px; border-radius: 6px; overflow: hidden; }
+.strip-row.active .strip { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--strip-car); }
 .axis { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin: 4px 0 10px; }
 
 /* ---------- Viagem animada ---------- */

@@ -150,11 +150,11 @@ function run() {
       </dl>
       <p class="status ${status[0]}">${status[1]}</p></article>`;
   }).join('');
+  drawStrips();
   drawSelected();
 }
 
-function drawSelected() {
-  const pts = results[selectedCar].points;
+function stripHtml(pts) {
   let html = '';
   for (let i = 0; i < pts.length;) {
     let j = i;
@@ -162,7 +162,20 @@ function drawSelected() {
     html += `<div style="flex:${j - i};background:${MODES[pts[i].mode].color}"></div>`;
     i = j;
   }
-  $('strip').innerHTML = html;
+  return html;
+}
+
+function drawStrips() {
+  $('strips').innerHTML = cars.map((c, i) => {
+    const { evKm } = summarize(results[i]);
+    return `<button type="button" class="strip-row" data-i="${i}" style="--strip-car:${c.color}" title="Mostrar a potência do ${c.name}">
+      <span class="strip-name"><i style="background:${c.color}"></i>${c.name}<small>${fmt1(evKm)} km no elétrico</small></span>
+      <span class="strip">${stripHtml(results[i].points)}</span></button>`;
+  }).join('');
+}
+
+function drawSelected() {
+  const pts = results[selectedCar].points;
   powerChart.data.datasets = [
     { label: 'Máximo disponível', borderColor: '#5F5E5A', data: pts.map(p => ({ x: p.km, y: p.pAvail })) },
     { label: 'Pedida', borderColor: '#898781', borderDash: [6, 4], data: pts.map(p => ({ x: p.km, y: p.pWanted })) },
@@ -170,10 +183,10 @@ function drawSelected() {
     { label: 'Bateria', borderColor: '#1baf7a', data: pts.map(p => ({ x: p.km, y: p.pBattery })) }
   ];
   powerChart.update();
-  document.querySelectorAll('#carTabs button, #rideTabs button').forEach(b => {
+  document.querySelectorAll('#carTabs button, #rideTabs button, #strips button').forEach(b => {
     const on = +b.dataset.i === selectedCar;
     b.classList.toggle('active', on);
-    b.setAttribute('aria-selected', on);
+    b.setAttribute(b.role === 'tab' ? 'aria-selected' : 'aria-pressed', on);
   });
   ride.setData({ points: pts, car: cars[selectedCar], startAlt: profile.startAlt });
 }
@@ -182,7 +195,7 @@ fillSelects();
 ['approach', 'length', 'gain', 'soc0', 'threshold', 'speed', 'extra'].forEach(id => $(id).addEventListener('input', run));
 ['style', 'b24', 'thrMode'].forEach(id => $(id).addEventListener('change', run));
 $('climb').addEventListener('change', applyPreset);
-['carTabs', 'rideTabs'].forEach(id => $(id).addEventListener('click', e => {
+['carTabs', 'rideTabs', 'strips'].forEach(id => $(id).addEventListener('click', e => {
   const b = e.target.closest('button');
   if (b) { selectedCar = +b.dataset.i; drawSelected(); }
 }));
