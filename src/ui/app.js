@@ -26,6 +26,7 @@ function fillSelects() {
   const tabs = cars.map((c, i) => `<button role="tab" data-i="${i}"><i style="background:${c.color}"></i>${c.name}</button>`).join('');
   $('carTabs').innerHTML = tabs;
   $('rideTabs').innerHTML = tabs;
+  $('modeLegend').innerHTML = Object.values(MODES).map(m => `<span><i style="background:${m.color}"></i>${m.label}</span>`).join('');
   $('socLegend').innerHTML = cars.map(c => `<span><i style="background:${c.color}"></i>${c.name}</span>`).join('') +
     '<span><i class="dashed"></i>Carga em que o térmico liga</span>';
 }

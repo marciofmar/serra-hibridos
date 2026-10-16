@@ -39,10 +39,12 @@ Potência pedida = F × v. Nas retomadas soma-se `m · a · v`.
 | Código | Cor | Significado |
 |---|---|---|
 | EV | verde-água | só bateria |
-| CHG | amarelo | térmico cobrindo a demanda e recarregando |
+| CHG | ouro | térmico cobrindo a demanda e recarregando |
 | BAT | laranja | térmico no máximo e bateria complementando |
 | WEAK | roxo | mantém a velocidade, mas não entrega a aceleração pedida |
-| LIM | vermelho | nem a velocidade de cruzeiro se sustenta |
+| LIM | vinho | nem a velocidade de cruzeiro se sustenta |
+
+As cores seguem a gravidade. As três primeiras são claras; as duas piores são escuras, e o vinho se separa do laranja pela luminosidade, o que funciona também para quem não distingue bem vermelho de laranja.
 
 ## Fases da viagem animada
 

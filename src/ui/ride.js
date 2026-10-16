@@ -244,7 +244,7 @@ export function createRide(el) {
     ctx.fillStyle = mode.color;
     ctx.beginPath(); ctx.roundRect(lx, ly - 10, tw, 20, 10); ctx.fill();
     ctx.beginPath(); ctx.moveTo(x - 4, ly + 9); ctx.lineTo(x + 4, ly + 9); ctx.lineTo(x, ly + 14); ctx.fill();
-    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = mode.ink; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText(label, lx + tw / 2, ly + 0.5);
   }
 
