@@ -11,6 +11,13 @@ O dono do projeto tem um Song Plus 2024 e usa a experiência dele como referênc
 
 Sem build e sem dependências de npm. O Chart.js vem do CDN do cdnjs em `index.html`.
 
+## Publicação
+
+- Repositório público: https://github.com/marciofmar/serra-hibridos
+- Site (GitHub Pages, raiz da branch `main`): https://marciofmar.github.io/serra-hibridos/
+- Todo push na `main` republica o site em um ou dois minutos. Rode `npm test` antes de enviar.
+- Os commits usam o e-mail privado do GitHub (`216239881+marciofmar@users.noreply.github.com`, configurado neste repositório). Não use outro e-mail aqui.
+
 ## Estrutura
 
 - `src/model/config.js` – todas as premissas numéricas do modelo (eficiências, curva da bateria, estratégia do térmico, estilos de condução). Comece por aqui para calibrar.
