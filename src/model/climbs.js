@@ -35,11 +35,6 @@ export const CLIMBS = {
   cj:    { group: 'São Paulo', name: 'Campos do Jordão – SP-123: Piracuama → Vista Chinesa', alt0: 600,
            segments: [[3, 5.2], [2, 7.1], [3, 6.9], [1, 4.8], [1, -3.1], [2, 4.2], [2, 6.6], [4.2, 4.93]],
            note: 'Serra Nova, da base da PRF em Piracuama ao alto da serra; parte mais dura do KM 3 ao 8, no túnel e no viaduto Santo Antônio, e descida de 31 m no KM 9–10' },
-  // A variante não veio no arquivo novo: mesma subida até a bifurcação do KM 14 (1.338 m) e
-  // depois 5,2 km a 6,63%, a inclinação do arquivo anterior (1.365 → 1.710 m), chegando a ~1.683 m.
-  cjt:   { group: 'São Paulo', name: 'Campos do Jordão – SP-123: Piracuama → Hotel Toriba (variante)', alt0: 600,
-           segments: [[3, 5.2], [2, 7.1], [3, 6.9], [1, 4.8], [1, -3.1], [2, 4.2], [2, 6.6], [5.2, 6.63]],
-           note: 'Mesma subida até a bifurcação do KM 14, depois a variante do Hotel Toriba, com rampas de até 15% (o perfil mostra a média de 6,6%)' },
   imig:  { group: 'São Paulo', name: 'Imigrantes – SP-160: Cubatão → Planalto', alt0: 15,
            segments: [[3.5, 5.14], [3.5, 5.71], [3.5, 5.71], [3, 5.57], [0.5, 0.6]],
            note: 'Pista norte, de Cubatão (KM 58) ao planalto em São Bernardo (KM 44), com 11 túneis e rampa contínua; falso plano no último meio quilômetro' },

@@ -42,7 +42,7 @@ Todos os perfis são por trechos, enviados pelo usuário em `data/`. A segunda v
 - Grajaú–Jacarepaguá: `data/trechos_subida_serra_grajau_jacarepagua.csv`
 - Petrópolis (BR-040): `data/01_petropolis_br040.csv`; [Caminhos de Motos](https://caminhosdemotos.com.br/serra-de-petropolis/), [Wikipedia](https://pt.wikipedia.org/wiki/BR-040)
 - Nova Friburgo (RJ-116), dois sentidos: `data/02_nova_friburgo_rj116.csv`; [Caminhos de Motos](https://caminhosdemotos.com.br/serra-de-friburgo/)
-- Campos do Jordão (SP-123), com a variante Toriba: `data/03_campos_do_jordao_sp123.csv`; [O Bicicleteiro](https://obicicleteiro.com/2019/06/20/serra-nova-campos-do-jordao-sp/)
+- Campos do Jordão (SP-123): `data/03_campos_do_jordao_sp123.csv`; [O Bicicleteiro](https://obicicleteiro.com/2019/06/20/serra-nova-campos-do-jordao-sp/)
 - Imigrantes (SP-160): `data/04_imigrantes_serra_do_mar_sp160.csv`; [Wikipedia](https://pt.wikipedia.org/wiki/Rodovia_dos_Imigrantes)
 - Mogi–Bertioga (SP-098): `data/05_mogi_bertioga_sp098.csv`; [Wikipedia](https://pt.wikipedia.org/wiki/SP-98)
 - Garganta do Embaú, dois sentidos: `data/06_cruzeiro_a_passa_quatro_mantiqueira.csv`; [Sampa Bikers](https://www.sampabikers.com.br/cicloviagem/passa-quatro-o-melhor-do-pedal-na-serra-da-mantiqueira/), [Wikipedia](https://pt.wikipedia.org/wiki/Garganta_do_Emba%C3%BA)
@@ -52,6 +52,4 @@ Todos os perfis são por trechos, enviados pelo usuário em `data/`. A segunda v
 - Rio do Rastro (SC-390): `data/10_serra_do_rio_do_rastro_sc390.csv`; [O Bicicleteiro](https://obicicleteiro.com/2019/07/02/serra-do-rio-do-rastro/), [Viagens e Caminhos](https://www.viagensecaminhos.com/serra-do-rio-do-rastro-sc/)
 - Serra da Rocinha (BR-285): `data/11_serra_da_rocinha_br285.csv`; [Viagens e Caminhos](https://www.viagensecaminhos.com/serra-da-rocinha-br-285/)
 - Serra Dona Francisca (SC-418): `data/12_serra_dona_francisca_sc418.csv`; [Wikipedia](https://pt.wikipedia.org/wiki/SC-418), [Viagens e Caminhos](https://www.viagensecaminhos.com/serra-dona-francisca-santa-catarina/)
-- Rota Romântica completa, com as descidas: no mesmo CSV (segunda versão dos arquivos). Regeneração: o C10 desliga com bateria cheia ([Motor Show](https://motorshow.com.br/avaliacao-leapmotor-c10-reev)); eficiência e tetos estimados.
-- Variante do Hotel Toriba: só no primeiro arquivo de Campos do Jordão (5,2 km, 1.365 → 1.710 m); o modelo usa a inclinação dela a partir da bifurcação do arquivo atual.
-- Porto Alegre a Gramado (RS-115 e Rota Romântica em três subidas): `data/13_serra_porto_alegre_gramado.csv`; [Pedal.com.br](https://www.pedal.com.br/forum/de-porto-alegre-a-gramado_topic29501.html), [topographic-map](https://pt-br.topographic-map.com/map-6h2zs/Gramado/)
+- Rota Romântica completa, com as descidas: no mesmo CSV (segunda versão dos arquivos). Regeneração: o C10 desliga com bateria cheia ([Motor Show](https://motorshow.com.br/avaliacao-leapmotor-c10-reev)); eficiência e tetos estimados.- Porto Alegre a Gramado (RS-115 e Rota Romântica em três subidas): `data/13_serra_porto_alegre_gramado.csv`; [Pedal.com.br](https://www.pedal.com.br/forum/de-porto-alegre-a-gramado_topic29501.html), [topographic-map](https://pt-br.topographic-map.com/map-6h2zs/Gramado/)

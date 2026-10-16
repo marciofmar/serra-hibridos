@@ -21,7 +21,7 @@ test('perfis enviados pelo usuário batem com extensão e altitudes dos CSVs', (
   // [id, km, altitude no pé, altitude no topo] tirados de data/*.csv
   const esperado = [
     ['petro', 18.7, 45, 855], ['fbg', 22, 135, 1075], ['fbgN', 9.5, 846, 1075],
-    ['cj', 18.2, 600, 1545], ['cjt', 19.2, 600, 1683], ['imig', 14, 15, 765],
+    ['cj', 18.2, 600, 1545],['imig', 14, 15, 765],
     ['mogi', 12, 20, 835], ['emb', 11.5, 595, 1133], ['embMG', 5.2, 955, 1133],
     ['reg', 26, 475, 1669], ['regMG', 20.2, 925, 1669], ['graciosa', 19.5, 45, 925],
     ['br277', 22, 40, 945], ['rastro', 15.4, 400, 1386], ['rocinha', 13, 130, 1230],
