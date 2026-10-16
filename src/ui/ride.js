@@ -1,4 +1,4 @@
-import { MODES } from './modes.js';
+import { MODES, cssFill, canvasFill } from './modes.js';
 import { phases } from '../model/phases.js';
 import { STEP_M } from '../model/config.js';
 
@@ -22,6 +22,8 @@ export function createRide(el) {
   let particles = [], wheel = 0, lastKm = 0, emitAcc = 0;
   let size = { w: 0, h: 0 }, theme = readTheme();
   let shownPhase = -1, shownReached = -1;
+  const fills = {};
+  const fill = mode => (fills[mode] ??= canvasFill(ctx, MODES[mode]));
 
   // ---------- Dados ----------
   function setData({ points, car, startAlt }) {
@@ -153,7 +155,7 @@ export function createRide(el) {
     for (let k = 0; k <= st.i;) {
       let j = k;
       while (j <= st.i && points[j].mode === points[k].mode) j++;
-      ctx.strokeStyle = MODES[points[k].mode].color;
+      ctx.strokeStyle = fill(points[k].mode);
       ctx.beginPath();
       ctx.moveTo(...path[k]);
       for (let m = k + 1; m <= j && m <= st.i; m++) ctx.lineTo(...path[m]);
@@ -167,7 +169,7 @@ export function createRide(el) {
       if (k === 0 || ph.startKm > st.km) return;
       const x = X(ph.startKm), y = Y(altAtKm(ph.startKm));
       ctx.beginPath(); ctx.arc(x, y, 4.5, 0, Math.PI * 2);
-      ctx.fillStyle = MODES[ph.mode].color; ctx.fill();
+      ctx.fillStyle = fill(ph.mode); ctx.fill();
       ctx.lineWidth = 2; ctx.strokeStyle = theme.surface; ctx.stroke();
     });
 
@@ -289,6 +291,7 @@ export function createRide(el) {
       shownPhase = k;
       const ph = data.phases[k], m = MODES[ph.mode];
       el.phase.style.setProperty('--mode', m.color);
+      el.phase.style.setProperty('--mode-fill', cssFill(m));
       el.phase.innerHTML = `<span class="phase-dot"></span><div><strong>${m.label}</strong>
         <span>${m.text}</span><small>Fase ${k + 1} de ${data.phases.length} · desde o km ${fmt1(ph.startKm)}</small></div>`;
     }
@@ -308,7 +311,7 @@ export function createRide(el) {
     const last = points.at(-1);
     el.log.innerHTML = ph.map((f, j) => {
       const m = MODES[f.mode];
-      return `<li data-km="${f.startKm}" style="--mode:${m.color}"><button type="button">
+      return `<li data-km="${f.startKm}" style="--mode:${m.color};--mode-fill:${cssFill(m)}"><button type="button">
         <span class="log-km">km ${fmt1(f.startKm)}</span><span class="log-dot"></span>
         <span class="log-txt">${m.label}<small>bateria ${Math.round(f.socStart)}% → ${Math.round(f.socEnd)}% · ${fmt1(f.endKm - f.startKm)} km</small></span>
       </button></li>`;

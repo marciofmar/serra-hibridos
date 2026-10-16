@@ -2,7 +2,7 @@ import { VEHICLES } from '../model/vehicles.js';
 import { CLIMBS, totals, buildProfile } from '../model/climbs.js';
 import { simulate, summarize } from '../model/simulate.js';
 import { DRIVING_STYLES } from '../model/config.js';
-import { MODES } from './modes.js';
+import { MODES, cssFill } from './modes.js';
 import { createRide } from './ride.js';
 
 const $ = id => document.getElementById(id);
@@ -26,7 +26,7 @@ function fillSelects() {
   const tabs = cars.map((c, i) => `<button role="tab" data-i="${i}"><i style="background:${c.color}"></i>${c.name}</button>`).join('');
   $('carTabs').innerHTML = tabs;
   $('rideTabs').innerHTML = tabs;
-  $('modeLegend').innerHTML = Object.values(MODES).map(m => `<span><i style="background:${m.color}"></i>${m.label}</span>`).join('');
+  $('modeLegend').innerHTML = Object.values(MODES).map(m => `<span><i class="swatch" style="background:${cssFill(m)}"></i>${m.label}</span>`).join('');
   $('socLegend').innerHTML = cars.map(c => `<span><i style="background:${c.color}"></i>${c.name}</span>`).join('') +
     '<span><i class="dashed"></i>Carga em que o térmico liga</span>';
 }
@@ -160,7 +160,7 @@ function stripHtml(pts) {
   for (let i = 0; i < pts.length;) {
     let j = i;
     while (j < pts.length && pts[j].mode === pts[i].mode) j++;
-    html += `<div style="flex:${j - i};background:${MODES[pts[i].mode].color}"></div>`;
+    html += `<div style="flex:${j - i};background:${cssFill(MODES[pts[i].mode])}"></div>`;
     i = j;
   }
   return html;

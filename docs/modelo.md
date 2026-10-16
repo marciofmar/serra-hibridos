@@ -42,9 +42,9 @@ Potência pedida = F × v. Nas retomadas soma-se `m · a · v`.
 | CHG | ouro | térmico cobrindo a demanda e recarregando |
 | BAT | laranja | térmico no máximo e bateria complementando |
 | WEAK | roxo | mantém a velocidade, mas não entrega a aceleração pedida |
-| LIM | vinho | nem a velocidade de cruzeiro se sustenta |
+| LIM | vermelho com listras escuras | nem a velocidade de cruzeiro se sustenta |
 
-As cores seguem a gravidade. As três primeiras são claras; as duas piores são escuras, e o vinho se separa do laranja pela luminosidade, o que funciona também para quem não distingue bem vermelho de laranja.
+As cores seguem a gravidade. O pior modo leva listras diagonais para ser reconhecido mesmo quando aparece sozinho na faixa, sem depender de comparar o tom com o laranja.
 
 ## Fases da viagem animada
 
