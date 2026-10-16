@@ -21,7 +21,7 @@ Sem build e sem dependências de npm. O Chart.js vem do CDN do cdnjs em `index.h
 - `src/ui/app.js` – interface: controles, cartões e gráficos.
 - `src/ui/ride.js` – viagem animada (canvas): carro subindo o perfil, fases, painel e controles.
 - `src/ui/modes.js` – cores e textos dos modos de operação.
-- `data/` – dados brutos enviados pelo usuário: perfis por trechos da Grajaú–Jacarepaguá e das outras serras (`01_` a `13_`), um CSV por serra, com uma ou mais subidas (coluna `Sentido_Subida`). Cada subida vira um preset em `climbs.js`.
+- `data/` – dados brutos enviados pelo usuário: perfis por trechos da Grajaú–Jacarepaguá e das outras serras (`01_` a `13_`), um CSV por serra, com uma ou mais subidas (coluna `Sentido_Subida`), cada uma do pé ao topo, incluindo patamares e descidas no meio. Cada subida vira um preset em `climbs.js`.
 - `docs/modelo.md` – física, estratégia de controle e histórico de correções. Leia antes de mudar o modelo.
 - `docs/fontes.md` – fontes de cada dado.
 
@@ -39,7 +39,7 @@ Sem build e sem dependências de npm. O Chart.js vem do CDN do cdnjs em `index.h
 ## Limitações conhecidas
 
 - A lógica de controle real da BYD, da Geely e da Leapmotor é proprietária. A estratégia simulada (limiar com histerese, reserva de recarga, curva de ajuda da bateria) é uma aproximação calibrada pelo relato do usuário e por uma análise publicada sobre o Song Plus aspirado. Só o piso elétrico de fábrica (`evFloor`) é próprio de cada carro; o resto da estratégia é comum a todos.
-- Em velocidade constante de 80 km/h, o modelo diz que os carros sustentam todas as serras da lista, com uma exceção: o C10 REEV cai para cerca de 69 km/h na Rocinha (trecho de 9,4%) com bateria baixa. A perda de desempenho aparece sobretudo nas retomadas e ultrapassagens.
+- Em velocidade constante de 80 km/h, o modelo diz que os carros sustentam todas as serras da lista, com uma exceção: o C10 REEV cai para cerca de 70 km/h no Rio do Rastro (paredão de 9,5%) com bateria baixa. A perda de desempenho aparece sobretudo nas retomadas e ultrapassagens.
 - Sem ar-condicionado, sem aquecimento de bateria ou motor. A regeneração em descida tem eficiência e tetos estimados (`REGEN` em `config.js`), e as retomadas não recuperam a frenagem antes das curvas.
-- As descidas da Rota Romântica completa (`gramR`) são estimadas pelos marcos de km; a do vale do rio Caí supõe o KM 0 da RS-235 em Nova Petrópolis e usa só a média, sem o fundo do vale.
+- A variante do Hotel Toriba (`cjt`) não veio no arquivo de perfis atual; o último trecho usa a inclinação do arquivo anterior a partir da bifurcação do arquivo novo.
 - Os perfis por trechos têm de 1 a 7 trechos de 1 a 8 km; rampas curtas mais fortes (como os picos de 15% da variante Toriba ou de 20% no Rio do Rastro) ficam diluídas na média do trecho.

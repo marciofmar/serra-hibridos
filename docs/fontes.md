@@ -37,7 +37,7 @@
 
 ## Subidas
 
-Todos os perfis são por trechos, enviados pelo usuário em `data/`. Cada CSV traz a fonte de cada trecho na coluna `Fonte_URL`; as principais estão abaixo. A inclinação de cada trecho no modelo é a diferença de altitude dividida pela extensão.
+Todos os perfis são por trechos, enviados pelo usuário em `data/`. A segunda versão dos arquivos (out/2026) começa cada subida no pé da serra e inclui os patamares e descidas no meio. Cada CSV traz a fonte de cada trecho na coluna `Fonte_URL`; as principais estão abaixo. A inclinação de cada trecho no modelo é a diferença de altitude dividida pela extensão.
 
 - Grajaú–Jacarepaguá: `data/trechos_subida_serra_grajau_jacarepagua.csv`
 - Petrópolis (BR-040): `data/01_petropolis_br040.csv`; [Caminhos de Motos](https://caminhosdemotos.com.br/serra-de-petropolis/), [Wikipedia](https://pt.wikipedia.org/wiki/BR-040)
@@ -52,5 +52,6 @@ Todos os perfis são por trechos, enviados pelo usuário em `data/`. Cada CSV tr
 - Rio do Rastro (SC-390): `data/10_serra_do_rio_do_rastro_sc390.csv`; [O Bicicleteiro](https://obicicleteiro.com/2019/07/02/serra-do-rio-do-rastro/), [Viagens e Caminhos](https://www.viagensecaminhos.com/serra-do-rio-do-rastro-sc/)
 - Serra da Rocinha (BR-285): `data/11_serra_da_rocinha_br285.csv`; [Viagens e Caminhos](https://www.viagensecaminhos.com/serra-da-rocinha-br-285/)
 - Serra Dona Francisca (SC-418): `data/12_serra_dona_francisca_sc418.csv`; [Wikipedia](https://pt.wikipedia.org/wiki/SC-418), [Viagens e Caminhos](https://www.viagensecaminhos.com/serra-dona-francisca-santa-catarina/)
-- Rota Romântica completa: subidas do mesmo CSV; descidas estimadas pelos marcos de km e altitudes dele (BR-116 KM 211 → 198; Nova Petrópolis → RS-235 KM 14, supondo o KM 0 em Nova Petrópolis). Regeneração: o C10 desliga com bateria cheia ([Motor Show](https://motorshow.com.br/avaliacao-leapmotor-c10-reev)); eficiência e tetos estimados.
+- Rota Romântica completa, com as descidas: no mesmo CSV (segunda versão dos arquivos). Regeneração: o C10 desliga com bateria cheia ([Motor Show](https://motorshow.com.br/avaliacao-leapmotor-c10-reev)); eficiência e tetos estimados.
+- Variante do Hotel Toriba: só no primeiro arquivo de Campos do Jordão (5,2 km, 1.365 → 1.710 m); o modelo usa a inclinação dela a partir da bifurcação do arquivo atual.
 - Porto Alegre a Gramado (RS-115 e Rota Romântica em três subidas): `data/13_serra_porto_alegre_gramado.csv`; [Pedal.com.br](https://www.pedal.com.br/forum/de-porto-alegre-a-gramado_topic29501.html), [topographic-map](https://pt-br.topographic-map.com/map-6h2zs/Gramado/)

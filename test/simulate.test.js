@@ -21,12 +21,12 @@ test('perfis enviados pelo usuário batem com extensão e altitudes dos CSVs', (
   // [id, km, altitude no pé, altitude no topo] tirados de data/*.csv
   const esperado = [
     ['petro', 18.7, 45, 855], ['fbg', 22, 135, 1075], ['fbgN', 9.5, 846, 1075],
-    ['cj', 18.2, 600, 1545], ['cjt', 19.2, 600, 1710], ['imig', 14, 15, 765],
-    ['mogi', 12, 20, 835], ['emb', 19.5, 535, 1133], ['embMG', 12.2, 915, 1133],
+    ['cj', 18.2, 600, 1545], ['cjt', 19.2, 600, 1683], ['imig', 14, 15, 765],
+    ['mogi', 12, 20, 835], ['emb', 11.5, 595, 1133], ['embMG', 5.2, 955, 1133],
     ['reg', 26, 475, 1669], ['regMG', 20.2, 925, 1669], ['graciosa', 19.5, 45, 925],
     ['br277', 22, 40, 945], ['rastro', 15.4, 400, 1386], ['rocinha', 13, 130, 1230],
-    ['dona', 20, 45, 870], ['gram', 18.5, 75, 835], ['gramA', 11, 160, 495],
-    ['gramB', 15, 105, 590], ['gramC', 18, 460, 835]
+    ['dona', 14, 135, 870], ['gram', 18.5, 75, 835], ['gramR', 71, 160, 835],
+    ['gramA', 11, 160, 495], ['gramB', 15, 105, 590], ['gramC', 18, 460, 835]
   ];
   for (const [id, km, base, topo] of esperado) {
     const c = CLIMBS[id];
@@ -38,12 +38,25 @@ test('perfis enviados pelo usuário batem com extensão e altitudes dos CSVs', (
 });
 
 test('aproximação com inclinação própria começa na altitude certa', () => {
-  const r = CLIMBS.rastro, t = totals(r);
-  const p = buildProfile(r, { ...t, approach: r.approach });
-  assert.ok(Math.abs(p.startAlt - 220) <= 1, `Lauro Müller em ${p.startAlt}`);
+  const r = { ...CLIMBS.rastro, approachGrade: 2.17 }, t = totals(r);
+  const p = buildProfile(r, { ...t, approach: 8.3 });
+  assert.ok(Math.abs(p.startAlt - 220) <= 1, `começou em ${p.startAlt}`);
   assert.equal(p.serraStartAlt, 400);
   const semAprox = buildProfile(r, { ...t, approach: 0 });
   assert.equal(semAprox.startAlt, 400);
+});
+
+test('patamares e descidas no meio da subida: plano gasta, descida forte regenera', () => {
+  const c = CLIMBS.cj, p = buildProfile(c, totals(c));
+  const r = simulate(car('s27'), p.segments, { startAlt: p.startAlt, soc0: 80, speedKmh: 60, style: 'c' });
+  const trecho = (a, b) => r.points.filter(x => x.km > a && x.km <= b);
+  const descida = trecho(9, 10); // −3,1%
+  assert.ok(descida.every(x => x.mode === 'REG'), 'descida do KM 9–10 regenera');
+  assert.ok(descida.at(-1).soc > descida[0].soc);
+  const pp = buildProfile(CLIMBS.petro, totals(CLIMBS.petro));
+  const rp = simulate(car('s27'), pp.segments, { startAlt: pp.startAlt, soc0: 80, speedKmh: 60, style: 'c' });
+  const plano = rp.points.filter(x => x.km > 13.5 && x.km <= 14.1); // 0,0%
+  assert.ok(plano.every(x => x.pBattery > 0 && x.mode === 'EV'), 'alívio plano pós-túneis gasta bateria');
 });
 
 test('esticar um perfil por trechos preserva o desnível pedido', () => {
