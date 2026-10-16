@@ -1,5 +1,5 @@
 // Premissas do modelo. Todas são estimativas (ver docs/modelo.md).
-// Mudar um valor aqui afeta os três carros igualmente.
+// Mudar um valor aqui afeta todos os carros igualmente.
 
 export const PHYS = {
   g: 9.81,

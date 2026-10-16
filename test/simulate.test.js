@@ -31,7 +31,7 @@ test('três terços mantêm a média da serra', () => {
 });
 
 test('bateria cheia sobe a Grajaú inteira no elétrico', () => {
-  for (const id of ['s27', 's24', 'ex5']) {
+  for (const id of ['s27', 's24', 'ex5', 'c10']) {
     const s = run(id, 'grj', { soc0: 100, speedKmh: 50, style: 'c' });
     assert.equal(s.fuelL, 0, id);
   }
@@ -48,6 +48,14 @@ test('limiar de 50% elimina a falta de fôlego em Campos do Jordão', () => {
     const s = run(id, 'cj', { style: 'f', soc0: 60, threshold: 50 });
     assert.equal(s.weakKm, 0, id);
   }
+});
+
+test('gerador do C10 não segura a carga numa serra longa a 80 km/h com ultrapassagens', () => {
+  // 88 cv aspirado, só gerando: a bateria cai abaixo do limiar escolhido (Motor Show relata o mesmo)
+  const climb = CLIMBS.cj, t = totals(climb);
+  const p = buildProfile(climb, { L: t.L, G: t.G, approach: climb.approach });
+  const r = simulate(car('c10'), p.segments, { startAlt: p.startAlt, soc0: 60, threshold: 50, speedKmh: 80, style: 'f' });
+  assert.ok(r.points.at(-1).soc < 40, `terminou com ${r.points.at(-1).soc}`);
 });
 
 test('limiar mais alto gasta mais gasolina', () => {

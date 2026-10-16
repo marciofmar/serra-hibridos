@@ -50,5 +50,22 @@ export const VEHICLES = [
     engineEff: 0.40,   // est: Geely declara 46,5% de pico
     evFloor: 20,       // src: Motor Show, bateria usada "até os cerca de 20% mínimos" no modo híbrido
     color: '#6250d6', dash: [6, 4]
+  },
+  {
+    // Elétrico de autonomia estendida: o 1.5 só gera energia e nunca move as rodas.
+    // O modelo já usa o caminho série (térmico → gerador → motor) para todos os carros.
+    id: 'c10',
+    name: 'C10 REEV',
+    mass: 1976,        // src: Nona Marcha (ficha brasileira)
+    cd: 0.30,          // est: sem Cd publicado; SUV de linhas suaves
+    width: 1.90, height: 1.68, // src: Nona Marcha
+    battery: 28.4,     // src: Nona Marcha / Voltarapida (LFP)
+    engineKW: 65,      // src: 1.5 aspirado de 88 cv (Nona Marcha, Voltarapida)
+    turbo: false,
+    motorKW: 158,      // src: 215 cv no eixo traseiro (Nona Marcha)
+    systemKW: 158,     // est: só o motor elétrico traciona, então o teto é o dele
+    engineEff: 0.38,   // est: igual aos aspirados BYD
+    evFloor: 25,       // src: modo EV liga o gerador em 25% (Voltarapida); Mecânica Online cita cerca de 30%
+    color: '#a0682a', dash: [8, 3, 2, 3]
   }
 ];

@@ -74,7 +74,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px;
 input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 2px solid var(--accent); box-shadow: 0 1px 4px rgba(0,0,0,0.25); }
 
 /* ---------- Cartões de resultado ---------- */
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; margin-bottom: 16px; }
 .card { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px 16px 14px; overflow: hidden; }
 .card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--car); }
 .card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }

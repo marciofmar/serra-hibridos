@@ -27,6 +27,14 @@
 - Piso elétrico de cerca de 20%, prioridade ao elétrico quando o Save não está ativo, Save zerado a cada partida, perda de força com bateria baixa depois de esforço, modo paralelo na estrada: [Motor Show](https://motorshow.com.br/avaliacao-geely-ex5-em-i)
 - Na Starray EM-i (mesma família), troca automática para híbrido abaixo de 25%: [HighMotor](https://www.highmotor.com/en/geely-starray-em-i-hibrido-enchufable-pensado-utilizarlo-diario-coche-electrico.html). Não usado no EX5, que tem relato próprio.
 
+### Leapmotor C10 REEV
+- Ficha brasileira: elétrico traseiro de 215 cv (158 kW), 1.5 aspirado de 88 cv só como gerador, 28,4 kWh LFP, 1.976 kg, 1.900 × 1.680 mm: [Nona Marcha](https://nonamarcha.com.br/leapmotor-c10-1-5-reev-2026-ficha-tecnica-autonomia-hibrida-e-preco-no-brasil/)
+- Modos EV+ (bateria até quase esvaziar; o carro parte nele), EV (gerador liga em 25% e tenta manter esse mínimo), Combustível (mantém a carga escolhida) e Power+ (gerador sempre ligado); 1.5 aspirado de 88 cv: [Voltarapida](https://www.voltarapida.net/2026/05/leapmotor-c10-reev-e-o-eletrico-pra.html)
+- Modo EV liga o gerador em cerca de 30%; Power+ indicado para subir serra: [Mecânica Online](https://mecanicaonline.com.br/2026/03/leapmotor-c10-ultra-hibrido-estreia-tecnologia-reev-e-redefine-eletrificacao-no-brasil/)
+- 0–100 km/h em 7,8 s com bateria cheia e 10,5 s com 16%; perda de força perceptível na serra com bateria quase vazia; carga escolhida até 80%: [Autoesporte via Grupo Sentinela](https://www.gruposentinela.com.br/teste-leapmotor-c10-reev-faz-quase-900-km-de-autonomia-como-prometido/) (o texto fala em 1.5 turbo de 96 cv, divergente das outras fontes)
+- Gerador fazendo esforço para manter 120 km/h, com a bateria caindo até quase zerar: [Motor Show](https://motorshow.com.br/teste-de-consumo-leapmotor-c10-reev); modos de prioridade ao elétrico e gerador sempre ligado: [Motor Show](https://motorshow.com.br/avaliacao-leapmotor-c10-reev)
+- Cd sem fonte (estimado em 0,30)
+
 ## Subidas
 
 - Ranking de ciclistas (Mogi–Bertioga, Mantiqueira, Graciosa, BR-277, Rio do Rastro, Dona Francisca): [Pedal.com.br](https://www.pedal.com.br/forum/escaladas-ranking-brasileiro_topic43407.html)
