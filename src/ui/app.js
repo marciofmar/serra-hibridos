@@ -4,6 +4,7 @@ import { simulate, summarize } from '../model/simulate.js';
 import { DRIVING_STYLES } from '../model/config.js';
 import { MODES, cssFill } from './modes.js';
 import { createRide } from './ride.js';
+import { contarAcesso } from './contador.js';
 
 const $ = id => document.getElementById(id);
 const fmt1 = x => x.toFixed(1).replace('.', ',');
@@ -204,6 +205,8 @@ $('climb').addEventListener('change', applyPreset);
   if (b) { selectedCar = +b.dataset.i; drawSelected(); }
 }));
 applyPreset();
+
+contarAcesso($('visitCount'));
 
 // ---------- Limitações do modelo ----------
 // Abre por botão ou pelo endereço com #limitacoes (link usado na divulgação)

@@ -16,6 +16,7 @@ Sem build e sem dependências de npm. O Chart.js vem do CDN do cdnjs em `index.h
 - Repositório público: https://github.com/marciofmar/serra-hibridos
 - Site (GitHub Pages, raiz da branch `main`): https://marciofmar.github.io/serra-hibridos/
 - Todo push na `main` republica o site em um ou dois minutos. Rode `npm test` antes de enviar.
+- O contador de acessos não é publicado pelo push: depois de mudar `contador/`, rode `npx wrangler@4 deploy` dentro de `contador/` (exige `npx wrangler@4 login` do dono da conta Cloudflare).
 - Os commits usam o e-mail privado do GitHub (`216239881+marciofmar@users.noreply.github.com`, configurado neste repositório). Não use outro e-mail aqui.
 
 ## Estrutura
@@ -28,9 +29,19 @@ Sem build e sem dependências de npm. O Chart.js vem do CDN do cdnjs em `index.h
 - `src/ui/app.js` – interface: controles, cartões e gráficos.
 - `src/ui/ride.js` – viagem animada (canvas): carro subindo o perfil, fases, painel e controles.
 - `src/ui/modes.js` – cores e textos dos modos de operação.
+- `src/ui/contador.js` – registra o acesso (uma vez por sessão, só no site publicado) e mostra o total no rodapé.
+- `contador/` – serviço do contador na Cloudflare (Worker + banco D1), publicado à parte do site. Ver "Contador de acessos" abaixo.
 - `data/` – dados brutos enviados pelo usuário: perfis por trechos da Grajaú–Jacarepaguá e das outras serras (`01_` a `13_`), um CSV por serra, com uma ou mais subidas (coluna `Sentido_Subida`), cada uma do pé ao topo, incluindo patamares e descidas no meio. Cada subida vira um preset em `climbs.js`.
 - `docs/modelo.md` – física, estratégia de controle e histórico de correções. Leia antes de mudar o modelo.
 - `docs/fontes.md` – fontes de cada dado.
+
+## Contador de acessos
+
+- Worker `serra-hibridos-contador` em https://serra-hibridos-contador.marciofmar.workers.dev, banco D1 `serra-hibridos-acessos` (tabela em `contador/schema.sql`).
+- `POST /visita` grava data/hora UTC, cidade, estado e país que a Cloudflare deduz do IP. O IP não é gravado (decisão do dono, pela LGPD); não comece a gravá-lo sem pedido explícito. Aceita só as origens do site e de `localhost:5173`.
+- `GET /total` devolve o total, mostrado no rodapé do site.
+- `GET /admin` é o histórico, só para o dono: senha no segredo `ADMIN_SENHA` (`npx wrangler@4 secret put ADMIN_SENHA`). Não coloque link para ela no site.
+- O rodapé avisa os visitantes do que é coletado. Ao mudar o que se coleta, atualize o aviso.
 
 ## Regras de trabalho
 
