@@ -115,6 +115,33 @@ test('curva da bateria do Song 2024 continua a calibrada (zero em 20%, plena em 
   assert.deepEqual(a.points.map(x => x.mode), b.points.map(x => x.mode));
 });
 
+test('descida forte regenera: carga sobe, sem gasolina, sem passar de 100%', () => {
+  for (const v of VEHICLES) {
+    const r = simulate({ ...v }, [[5, -6]], { startAlt: 1000, soc0: 50, speedKmh: 60, style: 'c' });
+    assert.ok(r.points.at(-1).soc > 50, `${v.id} terminou com ${r.points.at(-1).soc}`);
+    assert.equal(r.fuelL, 0, v.id);
+    assert.ok(r.points.every(p => p.mode === 'REG' && p.pBattery < 0), v.id);
+    const cheia = simulate({ ...v }, [[10, -8]], { startAlt: 1000, soc0: 97, speedKmh: 60, style: 'c' });
+    assert.ok(cheia.points.every(p => p.soc <= 100), v.id);
+  }
+});
+
+test('regeneração não passa do teto: o que sobra vai para os freios', () => {
+  const s24 = VEHICLES.find(v => v.id === 's24'); // 8,3 kWh → teto de 33 kW
+  const r = simulate({ ...s24 }, [[3, -10]], { startAlt: 1000, soc0: 30, speedKmh: 80, style: 'c' });
+  assert.ok(Math.min(...r.points.map(p => p.pBattery)) >= -8.3 * 4 - 1e-9);
+});
+
+test('Rota Romântica completa: 71 km, de 160 m a 835 m, com regeneração nas descidas', () => {
+  const c = CLIMBS.gramR, t = totals(c);
+  assert.equal(t.L, 71);
+  assert.ok(Math.abs(c.alt0 + t.G - 835) <= 1);
+  const p = buildProfile(c, t);
+  const r = simulate(car('s24'), p.segments, { startAlt: p.startAlt, soc0: 50, speedKmh: 60, style: 'c' });
+  const at = km => r.points.find(x => x.km >= km).soc;
+  assert.ok(at(24) > at(11), 'a carga sobe na descida para Picada Café');
+});
+
 test('carga da bateria nunca passa de 100% nem fica negativa', () => {
   const climb = CLIMBS.reg;
   const p = buildProfile(climb, totals(climb));

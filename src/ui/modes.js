@@ -1,9 +1,10 @@
 // Cores e textos dos modos de operação, usados na faixa, nos gráficos e na animação.
-// Escala de gravidade: verde-água → ouro → laranja → roxo → vermelho listrado.
+// Escala de gravidade: azul (regenerando) → verde-água → ouro → laranja → roxo → vermelho listrado.
 // O pior modo leva listras para ser reconhecido mesmo sozinho na faixa, sem
 // depender de comparar o tom com o laranja.
 export const MODES = {
-  EV:   { color: '#5DCAA5', ink: '#0b2e24', label: 'Elétrico',               short: 'Elétrico',    text: 'Só a bateria move o carro. Motor a gasolina desligado.' },
+  REG:  { color: '#4A90D9', ink: '#0b2440', label: 'Regenerando',            short: 'Regenerando', text: 'Descida: o motor elétrico segura o carro e recarrega a bateria.' },
+  EV:  { color: '#5DCAA5', ink: '#0b2e24', label: 'Elétrico',               short: 'Elétrico',    text: 'Só a bateria move o carro. Motor a gasolina desligado.' },
   CHG:  { color: '#E8B931', ink: '#2e2205', label: 'Térmico + recarga',      short: 'Recarga',     text: 'O motor a gasolina move o carro e ainda recarrega a bateria.' },
   BAT:  { color: '#E27322', ink: '#2b1405', label: 'Térmico + bateria',      short: 'Térm.+bat.',  text: 'Térmico no máximo, com a bateria complementando a força.' },
   WEAK: { color: '#7F77DD', ink: '#ffffff', label: 'Sem fôlego na retomada', short: 'Sem fôlego',  text: 'Mantém a velocidade, mas não entrega a aceleração pedida nas retomadas.' },

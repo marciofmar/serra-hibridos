@@ -40,5 +40,6 @@ Sem build e sem dependências de npm. O Chart.js vem do CDN do cdnjs em `index.h
 
 - A lógica de controle real da BYD, da Geely e da Leapmotor é proprietária. A estratégia simulada (limiar com histerese, reserva de recarga, curva de ajuda da bateria) é uma aproximação calibrada pelo relato do usuário e por uma análise publicada sobre o Song Plus aspirado. Só o piso elétrico de fábrica (`evFloor`) é próprio de cada carro; o resto da estratégia é comum a todos.
 - Em velocidade constante de 80 km/h, o modelo diz que os carros sustentam todas as serras da lista, com uma exceção: o C10 REEV cai para cerca de 69 km/h na Rocinha (trecho de 9,4%) com bateria baixa. A perda de desempenho aparece sobretudo nas retomadas e ultrapassagens.
-- Sem regeneração em descidas, sem ar-condicionado, sem aquecimento de bateria ou motor. Por isso a Rota Romântica (Porto Alegre → Gramado) está em três subidas separadas, sem as descidas entre elas.
+- Sem ar-condicionado, sem aquecimento de bateria ou motor. A regeneração em descida tem eficiência e tetos estimados (`REGEN` em `config.js`), e as retomadas não recuperam a frenagem antes das curvas.
+- As descidas da Rota Romântica completa (`gramR`) são estimadas pelos marcos de km; a do vale do rio Caí supõe o KM 0 da RS-235 em Nova Petrópolis e usa só a média, sem o fundo do vale.
 - Os perfis por trechos têm de 1 a 7 trechos de 1 a 8 km; rampas curtas mais fortes (como os picos de 15% da variante Toriba ou de 20% no Rio do Rastro) ficam diluídas na média do trecho.

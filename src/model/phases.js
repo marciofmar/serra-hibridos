@@ -1,13 +1,14 @@
 import { STEP_M, RETAKE_BLOCK_M } from './config.js';
 
 // Ordem de gravidade: num trecho com mais de um modo, prevalece o mais exigente
-const SEVERITY = { EV: 0, CHG: 1, BAT: 2, WEAK: 3, LIM: 4 };
+const SEVERITY = { REG: -1, EV: 0, CHG: 1, BAT: 2, WEAK: 3, LIM: 4 };
 
 /**
  * Resume os pontos da simulação em fases legíveis para a animação.
  *
  * Os modos alternam dentro de cada bloco de retomada (cruzeiro e aceleração),
- * então cada bloco de RETAKE_BLOCK_M recebe o modo mais exigente que teve.
+ * então cada bloco de RETAKE_BLOCK_M recebe o modo mais exigente que teve
+ * (regenerar é o menos exigente: um bloco de descida com retomada vira EV).
  * Blocos vizinhos iguais viram uma fase, e uma fase de um bloco só entre duas
  * fases iguais é absorvida por elas.
  *

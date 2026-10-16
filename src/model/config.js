@@ -39,6 +39,16 @@ export const STRATEGY = {
   reserveFrac: 0.15
 };
 
+// Regeneração em descida: o motor elétrico segura o carro na velocidade de cruzeiro e
+// devolve energia à bateria; o que passar do teto vai para os freios.
+export const REGEN = {
+  eta: 0.80,       // est: rodas → motor → inversor → bateria
+  motorFrac: 0.6,  // est: teto de regeneração como fração da potência do motor elétrico
+  kWPerKWh: 4,     // est: teto pela capacidade da bateria (LFP aceita cerca de 4C em pulsos)
+  taperFrom: 95    // est: acima desta carga a regeneração cai até zero em 100%
+                   //      (o C10 desliga a regeneração com bateria cheia, Motor Show)
+};
+
 // [aceleração das retomadas (m/s²), fração de cada bloco de 500 m acelerando]
 export const DRIVING_STYLES = {
   c: { label: 'Velocidade constante', accel: 0, frac: 0 },

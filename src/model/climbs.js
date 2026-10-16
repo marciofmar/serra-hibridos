@@ -82,6 +82,13 @@ export const CLIMBS = {
   gram:  { group: 'Porto Alegre → Gramado', name: 'Rota 1 – RS-115: Três Coroas → Gramado', alt0: 75,
            segments: [[4, 4.25], [4.5, 5.11], [3.5, 5.43], [2.5, 3.8], [4, 1.88]],
            note: 'Subida direta, do pedágio de Três Coroas (KM 24) ao Centro de Gramado; rampas de até 7% nas curvas superiores' },
+  // Rota completa: as três subidas de data/13_ ligadas pelas descidas.
+  // est: descidas pelos marcos de km e altitudes do CSV, sem perfil por trechos:
+  //   BR-116 KM 211 (Morro Reuter, 495 m) → KM 198 (Picada Café, 105 m): 13 km a −3,0%
+  //   Nova Petrópolis (590 m) → RS-235 KM 14 (460 m): 14 km a −0,93%, supondo o KM 0 da RS-235 em Nova Petrópolis
+  gramR: { group: 'Porto Alegre → Gramado', name: 'Rota 2 (Romântica) completa: Dois Irmãos → Gramado, com descidas', alt0: 160,
+           segments: [[5.5, 3.18], [5.5, 2.91], [13, -3], [5, 3.8], [5, 3.8], [5, 2.1], [14, -0.93], [6, 2.5], [6, 2.25], [6, 1.5]],
+           note: 'Três subidas com duas descidas no meio, ao vale do rio Cadeia e ao vale do rio Caí; as descidas são estimadas pelos marcos de km, e nelas o carro regenera' },
   gramA: { group: 'Porto Alegre → Gramado', name: 'Rota 2 (Romântica), subida 1 de 3 – BR-116: Dois Irmãos → Morro Reuter', alt0: 160,
            segments: [[5.5, 3.18], [5.5, 2.91]],
            note: 'Primeiro degrau da serra; depois a estrada desce ao vale do rio Cadeia' },

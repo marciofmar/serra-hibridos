@@ -26,6 +26,17 @@ Potência pedida = F × v. Nas retomadas soma-se `m · a · v`.
 - **Piso elétrico de fábrica (`evFloor`):** carga em que cada carro deixa o modo elétrico e o térmico assume, sem ajuste do motorista. Song 2027: 20%. Song 2024: 25%. EX5: 20%. C10 REEV: 25% (modo EV; o modo EV+, em que o carro parte, vai até quase esvaziar e não é simulado como padrão). Fontes em `docs/fontes.md`.
 - **Ajuda da bateria:** relativa ao piso de cada carro. Plena a partir de 25 pontos acima do piso, caindo em linha reta até zero 5 pontos abaixo dele. No Song 2024 (piso 25%), isso dá a curva calibrada com o dono: plena acima de 50%, zero em 20%. No Song 2027 e no EX5 (piso 20%), plena acima de 45%, zero em 15%. Esforço contínuo reduz o teto em até 50%, com memória de 2 minutos.
 
+## Descidas e regeneração
+
+Quando a força nas rodas fica negativa (a descida empurra mais que arrasto e rolamento seguram), o carro mantém a velocidade de cruzeiro com o motor elétrico como freio:
+
+- O térmico fica parado.
+- A bateria recebe 80% da potência de frenagem, até um teto: o menor entre 60% da potência do motor elétrico e 4 kW por kWh de bateria. No Song 2024 de 8,3 kWh, o teto é de 33 kW; nos outros, o motor manda.
+- Acima de 95% de carga a regeneração cai em linha reta até zero em 100%. O excedente vai para os freios.
+- Descidas suaves (como −0,9% a 80 km/h) ainda pedem potência, porque o arrasto vence a gravidade.
+
+Todos esses números são estimativas (`REGEN` em `config.js`). Limitação: nas retomadas o modelo conta a aceleração depois da curva, mas não a frenagem regenerativa antes dela.
+
 ## Estratégia de controle
 
 - Limiar: por padrão, o piso elétrico de fábrica de cada carro. O usuário pode escolher uma carga única para todos, como faz no modo SOC da BYD, no Save da Geely ou no modo Combustível da Leapmotor.
@@ -38,6 +49,7 @@ Potência pedida = F × v. Nas retomadas soma-se `m · a · v`.
 
 | Código | Cor | Significado |
 |---|---|---|
+| REG | azul | descida, motor elétrico regenerando |
 | EV | verde-água | só bateria |
 | CHG | ouro | térmico cobrindo a demanda e recarregando |
 | BAT | laranja | térmico no máximo e bateria complementando |
@@ -84,6 +96,7 @@ As versões abaixo surgiram de questionamentos do usuário. Elas explicam por qu
 8. **Gestão de energia por carro.** O usuário perguntou se os três carros usavam a mesma lógica. Usavam. Entrou o piso elétrico de fábrica de cada um, com fonte, e a curva de ajuda da bateria passou a ser relativa a esse piso. O Song 2024 manteve a calibração. O Song 2027 e o EX5 passaram a rodar no elétrico até 20% e a ter ajuda plena da bateria até 45%. O limiar padrão da interface virou "padrão de fábrica de cada carro". Os demais parâmetros de estratégia (histerese, taxa de recarga, reserva) continuam iguais para todos, por falta de dado publicado.
 9. **Leapmotor C10 REEV.** Elétrico de autonomia estendida: o 1.5 aspirado de 88 cv só gera energia. O modelo já tratava o térmico pelo caminho série (82%), que é o único caminho do C10, então nenhuma regra nova foi necessária. O teto de potência é o do motor traseiro (158 kW). Com o menor gerador da lista, o C10 não segura a carga numa serra longa em ritmo forte: em Campos do Jordão a 80 km/h, com ultrapassagens e limiar de 50%, a bateria cai para perto de 34%, coerente com o teste da Motor Show.
 10. **Perfis por trechos de todas as serras.** O usuário enviou 13 CSVs. Cada sentido ou rota virou um preset: 20 subidas, além das três da Grajaú–Jacarepaguá. Nova Friburgo, Embaú e Registro ganharam os dois sentidos. Campos do Jordão ganhou a variante do Hotel Toriba. Porto Alegre → Gramado ficou com a RS-115 e com a Rota Romântica em três subidas separadas, porque o modelo não trata as descidas entre elas. A aproximação passou a ter inclinação própria por preset (Rio do Rastro: 8,3 km a 2,2% desde Lauro Müller; Rocinha: 8 km a 0,4%; Mogi: 4 km a 0,3%), e `alt0` passou a ser a altitude no pé da serra. Campos do Jordão deixou de ter os 25 km de vale antes, porque o perfil enviado começa na base da PRF em Piracuama.
+11. **Descidas com regeneração.** O usuário pediu a Rota Romântica completa. Antes, uma força negativa nas rodas virava recarga com eficiência acima de 100% (bug sem efeito, porque nenhum perfil descia). Entrou o modo REG, com teto de regeneração e corte perto de 100% de carga. A Rota Romântica completa (71 km) liga as três subidas pelas descidas ao vale do rio Cadeia (13 km a −3,0%) e ao vale do rio Caí (14 km a −0,9%), estimadas pelos marcos de km do CSV. Os resultados das serras só de subida não mudaram.
 
 ## Ideias para calibrar
 

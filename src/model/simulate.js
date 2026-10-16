@@ -1,4 +1,4 @@
-import { PHYS, POWERTRAIN, BATTERY, STRATEGY, DRIVING_STYLES, STEP_M, RETAKE_BLOCK_M } from './config.js';
+import { PHYS, POWERTRAIN, BATTERY, STRATEGY, REGEN, DRIVING_STYLES, STEP_M, RETAKE_BLOCK_M } from './config.js';
 
 const clamp01 = x => Math.max(0, Math.min(1, x));
 
@@ -6,6 +6,7 @@ const clamp01 = x => Math.max(0, Math.min(1, x));
  * Simula a subida de um veículo híbrido plug-in passo a passo.
  *
  * Modos registrados em cada passo:
+ *  REG  – descida, motor elétrico regenerando
  *  EV   – só bateria
  *  CHG  – térmico ligado, cobrindo a demanda e recarregando
  *  BAT  – térmico no máximo e bateria complementando
@@ -81,7 +82,13 @@ export function simulate(car, segments, opts) {
 
       let pEngine = 0, pBattery, mode;
       const evPossible = pWheel / POWERTRAIN.etaBatteryToWheel <= Math.min(car.motorKW, batAllow);
-      if (!engineOn && evPossible) {
+      if (pWheel <= 0) {
+        // Descida: térmico parado, motor elétrico regenera até o teto; o resto vai para os freios
+        const taper = clamp01((100 - soc) / (100 - REGEN.taperFrom));
+        const regenCap = Math.min(car.motorKW * REGEN.motorFrac, car.battery * REGEN.kWPerKWh) * taper;
+        pBattery = -Math.min(-pWheel * REGEN.eta, regenCap);
+        mode = pBattery < -0.5 ? 'REG' : 'EV';
+      } else if (!engineOn && evPossible) {
         pBattery = pWheel / POWERTRAIN.etaBatteryToWheel;
         mode = 'EV';
       } else {
