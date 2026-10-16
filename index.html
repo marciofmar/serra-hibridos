@@ -43,7 +43,11 @@
         <div class="row"><label for="style">Condução</label><select id="style"></select></div>
         <div class="row"><label for="b24">Bateria Song 2024</label><select id="b24"></select></div>
         <div class="row"><label for="soc0">Carga inicial</label><input type="range" id="soc0" min="10" max="100" step="2" value="50"><output id="soc0Out"></output></div>
-        <div class="row"><label for="threshold">Limiar do térmico</label><input type="range" id="threshold" min="15" max="70" step="5" value="25"><output id="thresholdOut"></output></div>
+        <div class="row"><label for="thrMode">Térmico liga em</label><select id="thrMode">
+          <option value="auto">Padrão de fábrica de cada carro</option>
+          <option value="manual">Carga escolhida (modo SOC/Save)</option>
+        </select></div>
+        <div class="row" id="thresholdRow" hidden><label for="threshold">Carga escolhida</label><input type="range" id="threshold" min="15" max="70" step="5" value="25"><output id="thresholdOut"></output></div>
         <div class="row"><label for="extra">Carga extra</label><input type="range" id="extra" min="0" max="500" step="25" value="150"><output id="extraOut"></output></div>
       </fieldset>
     </div>

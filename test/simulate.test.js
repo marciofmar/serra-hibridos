@@ -56,6 +56,28 @@ test('limiar mais alto gasta mais gasolina', () => {
   assert.ok(high.fuelL > low.fuelL);
 });
 
+test('sem limiar escolhido, o térmico liga no piso elétrico de fábrica de cada carro', () => {
+  const climb = CLIMBS.cj;
+  const t = totals(climb);
+  const p = buildProfile(climb, { L: t.L, G: t.G, approach: climb.approach });
+  for (const v of VEHICLES) {
+    const r = simulate({ ...v }, p.segments, { startAlt: p.startAlt, soc0: 60, speedKmh: 60, style: 'c' });
+    assert.equal(r.threshold, v.evFloor, v.id);
+    // Pode ligar um pouco antes (bateria fraca perto do piso), nunca depois
+    const lowestEv = Math.min(...r.points.filter(pt => pt.mode === 'EV').map(pt => pt.soc));
+    assert.ok(lowestEv > v.evFloor - 0.5, `${v.id} rodou elétrico até ${lowestEv}`);
+  }
+});
+
+test('curva da bateria do Song 2024 continua a calibrada (zero em 20%, plena em 50%)', () => {
+  const s24 = VEHICLES.find(v => v.id === 's24');
+  const p = buildProfile(CLIMBS.grj, { L: 4.5, G: 290, approach: 0 });
+  const opts = { startAlt: p.startAlt, soc0: 45, speedKmh: 60, style: 'f' };
+  const a = simulate({ ...s24 }, p.segments, opts);
+  const b = simulate({ ...s24, evFloor: undefined }, p.segments, opts); // padrão 25%
+  assert.deepEqual(a.points.map(x => x.mode), b.points.map(x => x.mode));
+});
+
 test('carga da bateria nunca passa de 100% nem fica negativa', () => {
   const climb = CLIMBS.mant1;
   const p = buildProfile(climb, { L: 23, G: 1152 });

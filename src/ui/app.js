@@ -27,7 +27,7 @@ function fillSelects() {
   $('carTabs').innerHTML = tabs;
   $('rideTabs').innerHTML = tabs;
   $('socLegend').innerHTML = cars.map(c => `<span><i style="background:${c.color}"></i>${c.name}</span>`).join('') +
-    '<span><i style="background:#898781"></i>Limiar</span>';
+    '<span><i class="dashed"></i>Carga em que o térmico liga</span>';
 }
 
 function applyPreset() {
@@ -46,7 +46,7 @@ function readInputs() {
   return {
     climb: CLIMBS[$('climb').value],
     L: +$('length').value, G: +$('gain').value, approach: +$('approach').value,
-    soc0: +$('soc0').value, threshold: +$('threshold').value,
+    soc0: +$('soc0').value, threshold: $('thrMode').value === 'auto' ? null : +$('threshold').value,
     speedKmh: +$('speed').value, extraKg: +$('extra').value, style: $('style').value
   };
 }
@@ -98,7 +98,8 @@ function run() {
   $('lengthOut').textContent = `${fmt1(inp.L)} km`;
   $('gainOut').textContent = `${inp.G} m`;
   $('soc0Out').textContent = `${inp.soc0}%`;
-  $('thresholdOut').textContent = `${inp.threshold}%`;
+  $('thresholdOut').textContent = `${$('threshold').value}%`;
+  $('thresholdRow').hidden = inp.threshold === null;
   $('speedOut').textContent = `${inp.speedKmh} km/h`;
   $('extraOut').textContent = `${inp.extraKg} kg`;
   document.querySelectorAll('input[type=range]').forEach(r =>
@@ -124,7 +125,10 @@ function run() {
 
   socChart.data.datasets = cars.map((c, i) => ({ label: c.name, borderColor: c.color, borderDash: c.dash, borderWidth: 2,
     data: results[i].points.filter((p, j) => j % 2 === 0).map(p => ({ x: p.km, y: p.soc })) }))
-    .concat([{ label: 'Limiar', borderColor: '#898781', borderWidth: 1, borderDash: [2, 3], data: [{ x: 0, y: inp.threshold }, { x: profile.totalKm, y: inp.threshold }] }]);
+    .concat(inp.threshold === null
+      ? cars.map((c, i) => ({ label: `Limiar ${c.name}`, borderColor: c.color + '99', borderWidth: 1, borderDash: [2, 3],
+          data: [{ x: 0, y: results[i].threshold }, { x: profile.totalKm, y: results[i].threshold }] }))
+      : [{ label: 'Limiar', borderColor: '#898781', borderWidth: 1, borderDash: [2, 3], data: [{ x: 0, y: inp.threshold }, { x: profile.totalKm, y: inp.threshold }] }]);
   socChart.update();
 
   $('cards').innerHTML = cars.map((c, i) => {
@@ -136,7 +140,8 @@ function run() {
     return `<article class="card" style="--car:${c.color}">
       <div class="card-head"><span class="dot"></span><h3>${c.name}</h3><span class="tag">${fmt1(c.battery)} kWh</span></div>
       <div class="soc"><span class="big">${soc}%</span><span class="unit">de bateria no topo</span></div>
-      <div class="meter" title="Linha: limiar do térmico"><span style="width:${Math.max(0, Math.min(100, soc))}%"></span><i style="left:${inp.threshold}%"></i></div>
+      <div class="meter" title="Linha: carga em que o térmico liga"><span style="width:${Math.max(0, Math.min(100, soc))}%"></span><i style="left:${results[i].threshold}%"></i></div>
+      <p class="floor">Térmico liga em ${results[i].threshold}%${inp.threshold === null ? ' (padrão de fábrica)' : ''}</p>
       <dl class="stats">
         <div><dt>Gasolina</dt><dd>${fmt1(s.fuelL)} L</dd></div>
         <div><dt>No elétrico</dt><dd>${fmt1(s.evKm)} km</dd></div>
@@ -175,7 +180,7 @@ function drawSelected() {
 
 fillSelects();
 ['approach', 'length', 'gain', 'soc0', 'threshold', 'speed', 'extra'].forEach(id => $(id).addEventListener('input', run));
-['style', 'b24'].forEach(id => $(id).addEventListener('change', run));
+['style', 'b24', 'thrMode'].forEach(id => $(id).addEventListener('change', run));
 $('climb').addEventListener('change', applyPreset);
 ['carTabs', 'rideTabs'].forEach(id => $(id).addEventListener('click', e => {
   const b = e.target.closest('button');

@@ -21,13 +21,16 @@ export const POWERTRAIN = {
 export const BATTERY = {
   kWPerKWh: 12,        // teto de potência por kWh de capacidade (limita baterias pequenas)
   peakOverMotor: 1.05, // teto também limitado pela potência do motor elétrico
-  assistFullAt: 50,    // % de carga acima da qual a bateria ajuda plenamente
-  assistZeroAt: 20,    // % de carga em que a bateria deixa de ajudar
+  // A curva de ajuda é relativa ao piso elétrico de cada carro (evFloor em vehicles.js).
+  // Calibrada no Song 2024 (piso 25%): ajuda plena acima de 50%, zero em 20%.
+  assistFullAboveFloor: 25, // pontos acima do piso em que a bateria ajuda plenamente
+  assistZeroBelowFloor: 5,  // pontos abaixo do piso em que a bateria deixa de ajudar
   effortFloor: 0.5,    // esforço contínuo reduz o teto até essa fração
   effortTauS: 120      // memória do esforço (s)
 };
 
 export const STRATEGY = {
+  defaultEvFloor: 25,   // piso elétrico de fábrica para carro sem evFloor na ficha
   hysteresis: 4,        // térmico recarrega até limiar + 4 pontos e desliga
   chargeBaseKW: 10,     // recarga mínima com o térmico ligado
   chargePerPointKW: 2,  // recarga extra por ponto abaixo do alvo

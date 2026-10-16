@@ -15,10 +15,15 @@ const clamp01 = x => Math.max(0, Math.min(1, x));
  * @param {object} car        ficha de src/model/vehicles.js
  * @param {Array}  segments   [[km, %], ...] de buildProfile
  * @param {object} opts       { startAlt, soc0, threshold, speedKmh, extraKg, style }
- * @returns {{ points: object[], fuelL: number }}
+ *                             threshold ausente ou null = piso elétrico de fábrica do carro
+ * @returns {{ points: object[], fuelL: number, threshold: number }}
  */
 export function simulate(car, segments, opts) {
-  const { startAlt = 0, soc0 = 50, threshold = 25, speedKmh = 80, extraKg = 150, style = 'n' } = opts;
+  const { startAlt = 0, soc0 = 50, speedKmh = 80, extraKg = 150, style = 'n' } = opts;
+  const evFloor = car.evFloor ?? STRATEGY.defaultEvFloor;
+  const threshold = opts.threshold ?? evFloor;
+  const assistZeroAt = evFloor - BATTERY.assistZeroBelowFloor;
+  const assistFullAt = evFloor + BATTERY.assistFullAboveFloor;
   const drive = DRIVING_STYLES[style];
   const m = car.mass + extraKg;
   const area = PHYS.frontalFactor * car.width * car.height;
@@ -38,7 +43,7 @@ export function simulate(car, segments, opts) {
       const force = v => m * PHYS.g * PHYS.crr * Math.cos(theta) + m * PHYS.g * Math.sin(theta) + 0.5 * rho * car.cd * area * v * v;
 
       // Teto da bateria: cai com carga baixa e com esforço contínuo
-      const socFactor = clamp01((soc - BATTERY.assistZeroAt) / (BATTERY.assistFullAt - BATTERY.assistZeroAt));
+      const socFactor = clamp01((soc - assistZeroAt) / (assistFullAt - assistZeroAt));
       const effortFactor = 1 - (1 - BATTERY.effortFloor) * effort;
       const batAllow = batPeak * socFactor * effortFactor;
 
@@ -108,7 +113,7 @@ export function simulate(car, segments, opts) {
       points.push({ km: +km.toFixed(2), alt, soc, pWanted, pEngine, pBattery, pAvail, speedKmh: v * 3.6, mode, grade, fuelL });
     }
   }
-  return { points, fuelL };
+  return { points, fuelL, threshold };
 }
 
 export function summarize(result, targetSpeed) {

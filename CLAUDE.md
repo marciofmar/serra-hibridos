@@ -38,7 +38,7 @@ Sem build e sem dependências de npm. O Chart.js vem do CDN do cdnjs em `index.h
 
 ## Limitações conhecidas
 
-- A lógica de controle real da BYD e da Geely é proprietária. A estratégia simulada (limiar com histerese, reserva de recarga, curva de ajuda da bateria) é uma aproximação calibrada pelo relato do usuário e por uma análise publicada sobre o Song Plus aspirado.
+- A lógica de controle real da BYD e da Geely é proprietária. A estratégia simulada (limiar com histerese, reserva de recarga, curva de ajuda da bateria) é uma aproximação calibrada pelo relato do usuário e por uma análise publicada sobre o Song Plus aspirado. Só o piso elétrico de fábrica (`evFloor`) é próprio de cada carro; o resto da estratégia é comum aos três.
 - Em velocidade constante, o modelo diz que os três carros sustentam todas as serras da lista. A perda de desempenho aparece nas retomadas e ultrapassagens.
 - Sem regeneração em descidas, sem ar-condicionado, sem aquecimento de bateria ou motor.
 - Petrópolis tem desnível estimado. Os perfis de serras com só total (sem trechos) usam três terços com a inclinação crescendo.
