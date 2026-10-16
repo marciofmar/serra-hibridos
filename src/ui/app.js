@@ -204,3 +204,14 @@ $('climb').addEventListener('change', applyPreset);
   if (b) { selectedCar = +b.dataset.i; drawSelected(); }
 }));
 applyPreset();
+
+// ---------- Limitações do modelo ----------
+// Abre por botão ou pelo endereço com #limitacoes (link usado na divulgação)
+const limits = $('limits');
+const openLimits = () => { if (!limits.open) limits.showModal(); };
+document.querySelectorAll('[data-open-limits]').forEach(b => b.addEventListener('click', openLimits));
+limits.querySelectorAll('[data-close-limits]').forEach(b => b.addEventListener('click', () => limits.close()));
+limits.addEventListener('click', e => { if (e.target === limits) limits.close(); }); // toque fora fecha
+limits.addEventListener('close', () => { if (location.hash === '#limitacoes') history.replaceState(null, '', location.pathname); });
+if (location.hash === '#limitacoes') openLimits();
+window.addEventListener('hashchange', () => { if (location.hash === '#limitacoes') openLimits(); });

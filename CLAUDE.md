@@ -45,6 +45,8 @@ Sem build e sem dependências de npm. O Chart.js vem do CDN do cdnjs em `index.h
 
 ## Limitações conhecidas
 
+O site mostra estas limitações aos usuários no quadro "Limitações do modelo" (`<dialog id="limits">` em `index.html`, aberto pelo botão do topo, pelo rodapé ou pelo endereço `#limitacoes`). Ao mudar o modelo, mantenha o quadro e esta lista coerentes.
+
 - A lógica de controle real da BYD, da Geely e da Leapmotor é proprietária. A estratégia simulada (limiar com histerese, reserva de recarga, curva de ajuda da bateria) é uma aproximação calibrada pelo relato do usuário e por uma análise publicada sobre o Song Plus aspirado. Só o piso elétrico de fábrica (`evFloor`) é próprio de cada carro; o resto da estratégia é comum a todos.
 - Em velocidade constante de 80 km/h, o modelo diz que os carros sustentam todas as serras da lista, com uma exceção: o C10 REEV cai para cerca de 70 km/h no Rio do Rastro (paredão de 9,5%) com bateria baixa. A perda de desempenho aparece sobretudo nas retomadas e ultrapassagens.
 - Sem ar-condicionado, sem aquecimento de bateria ou motor. A regeneração em descida tem eficiência e tetos estimados (`REGEN` em `config.js`), e as retomadas não recuperam a frenagem antes das curvas.
