@@ -6,3 +6,13 @@ compatibility_date = "2026-10-01"
 binding = "DB"
 database_name = "serra-hibridos-acessos"
 database_id = "986fb00f-3d82-4dde-9809-64ab78230a87"
+
+# Limite de envios do Fale conosco: 3 por minuto por IP. O IP só serve de chave
+# para a contagem, que a Cloudflare descarta; ele não é gravado no banco.
+[[ratelimits]]
+name = "LIMITE_CONTATO"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 3
+  period = 60

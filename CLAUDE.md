@@ -29,18 +29,22 @@ Sem build e sem dependências de npm. O Chart.js vem do CDN do cdnjs em `index.h
 - `src/ui/app.js` – interface: controles, cartões e gráficos.
 - `src/ui/ride.js` – viagem animada (canvas): carro subindo o perfil, fases, painel e controles.
 - `src/ui/modes.js` – cores e textos dos modos de operação.
-- `src/ui/contador.js` – registra o acesso (uma vez por sessão, só no site publicado) e mostra o total no rodapé.
-- `contador/` – serviço do contador na Cloudflare (Worker + banco D1), publicado à parte do site. Ver "Contador de acessos" abaixo.
+- `src/ui/contador.js` – registra o acesso (uma vez por sessão, só no site publicado) e mostra o total no rodapé. Exporta o endereço do Worker; com `?worker=local` em `localhost`, usa o Worker local (`npx wrangler@4 dev`, porta 8787).
+- `src/ui/contato.js` – tela Fale conosco (`<dialog id="contato">` em `index.html`): abre pelo topo, pelo chamado abaixo dos resultados, pelo quadro de limitações, pelo rodapé ou pelo endereço `#contato`.
+- `contador/` – serviço do contador e do Fale conosco na Cloudflare (Worker + banco D1), publicado à parte do site. Ver "Contador de acessos e Fale conosco" abaixo.
 - `data/` – dados brutos enviados pelo usuário: perfis por trechos da Grajaú–Jacarepaguá e das outras serras (`01_` a `13_`), um CSV por serra, com uma ou mais subidas (coluna `Sentido_Subida`), cada uma do pé ao topo, incluindo patamares e descidas no meio. Cada subida vira um preset em `climbs.js`.
 - `docs/modelo.md` – física, estratégia de controle e histórico de correções. Leia antes de mudar o modelo.
 - `docs/fontes.md` – fontes de cada dado.
 
-## Contador de acessos
+## Contador de acessos e Fale conosco
 
-- Worker `serra-hibridos-contador` em https://serra-hibridos-contador.marciofmar.workers.dev, banco D1 `serra-hibridos-acessos` (tabela em `contador/schema.sql`).
+- Worker `serra-hibridos-contador` em https://serra-hibridos-contador.marciofmar.workers.dev, banco D1 `serra-hibridos-acessos` (tabelas `acessos` e `mensagens` em `contador/schema.sql`).
 - `POST /visita` grava data/hora UTC, cidade, estado e país que a Cloudflare deduz do IP. O IP não é gravado (decisão do dono, pela LGPD); não comece a gravá-lo sem pedido explícito. Aceita só as origens do site e de `localhost:5173`.
 - `GET /total` devolve o total, mostrado no rodapé do site.
-- `GET /admin` é o histórico, só para o dono: senha no segredo `ADMIN_SENHA` (`npx wrangler@4 secret put ADMIN_SENHA`). Não coloque link para ela no site.
+- `POST /contato` grava uma mensagem do Fale conosco (assunto, texto, campos do relato, link, nome e e-mail opcionais, local aproximado). Mesmas origens do `/visita`. Contra spam: campo-isca `site`, limite de 3 envios por minuto por IP (binding `LIMITE_CONTATO`; o IP só serve de chave e não é gravado) e teto de 200 mensagens em 24 h.
+- Aviso de mensagem nova pelo Telegram, sem o conteúdo, quando existirem os segredos `TELEGRAM_TOKEN` e `TELEGRAM_CHAT_ID`. Para configurar: criar o bot no @BotFather, mandar uma mensagem a ele, pegar o `chat.id` em `https://api.telegram.org/bot<token>/getUpdates` e rodar `npx wrangler@4 secret put` para cada segredo, dentro de `contador/`.
+- `GET /admin` mostra as mensagens (não lidas primeiro) e o histórico de acessos, só para o dono: senha no segredo `ADMIN_SENHA` (`npx wrangler@4 secret put ADMIN_SENHA`). `POST /admin/mensagem` marca como lida ou apaga. Não coloque link para o painel no site.
+- Mudança no `schema.sql` precisa ser aplicada no banco publicado antes do deploy: `npx wrangler@4 d1 execute serra-hibridos-acessos --remote --file=schema.sql` (as instruções usam `IF NOT EXISTS` e podem rodar de novo). Para testar localmente, use `--local` e `npx wrangler@4 dev --var ADMIN_SENHA:<senha-de-teste>`.
 - O rodapé avisa os visitantes do que é coletado. Ao mudar o que se coleta, atualize o aviso.
 
 ## Regras de trabalho

@@ -18,10 +18,16 @@
     <p class="eyebrow">Simulador de subida</p>
     <h1>Híbridos na serra</h1>
     <p class="lede">Song Plus 2027, Song Plus 2024, Geely EX5 EM-i e Leapmotor C10 REEV em serras do Sudeste e do Sul. Modelo físico com premissas documentadas em <code>docs/modelo.md</code>.</p>
-    <button type="button" class="limits-btn" data-open-limits>
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3 2 20h20L12 3Zm0 6v5m0 3v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Limitações do modelo <small>leia antes de usar</small></span>
-    </button>
+    <div class="hero-actions">
+      <button type="button" class="limits-btn" data-open-limits>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3 2 20h20L12 3Zm0 6v5m0 3v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Limitações do modelo <small>leia antes de usar</small></span>
+      </button>
+      <button type="button" class="contato-btn" data-open-contato>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 9.5h8M8 12.5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Fale conosco <small>relatos, sugestões e elogios</small></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -40,8 +46,75 @@
       <li><strong>O motorista é simplificado.</strong> O carro mantém a velocidade escolhida e faz retomadas padronizadas. Trânsito, caminhão na frente e freadas antes das curvas não entram.</li>
       <li><strong>Ficaram de fora</strong> ar-condicionado, temperatura da bateria e do motor, vento, pneus e desgaste da bateria. A regeneração nas descidas usa eficiência estimada.</li>
     </ol>
-    <p class="limits-foot">Se o seu carro se comporta diferente do simulador, o seu relato vale mais que o modelo. Conte o carro, a serra, a velocidade, o peso a bordo, a carga da bateria no pé e no topo e onde o carro perdeu força. Premissas e fontes em <a href="https://github.com/marciofmar/serra-hibridos/blob/main/docs/modelo.md" target="_blank" rel="noopener">docs/modelo.md</a> e <a href="https://github.com/marciofmar/serra-hibridos/blob/main/docs/fontes.md" target="_blank" rel="noopener">docs/fontes.md</a>.</p>
+    <p class="limits-foot">Se o seu carro se comporta diferente do simulador, o seu relato vale mais que o modelo. Boa parte dessas limitações só se resolve com dados reais. Se puder ajudar, <button type="button" class="link-btn" data-open-contato="relato">fale com a gente</button>. Premissas e fontes em <a href="https://github.com/marciofmar/serra-hibridos/blob/main/docs/modelo.md" target="_blank" rel="noopener">docs/modelo.md</a> e <a href="https://github.com/marciofmar/serra-hibridos/blob/main/docs/fontes.md" target="_blank" rel="noopener">docs/fontes.md</a>.</p>
     <button type="button" class="limits-ok" data-close-limits>Entendi</button>
+  </div>
+</dialog>
+
+<dialog id="contato" class="limits contato" aria-labelledby="contatoTitle">
+  <div class="limits-head">
+    <h2 id="contatoTitle">Fale conosco</h2>
+    <button type="button" class="limits-close" data-close-contato aria-label="Fechar">×</button>
+  </div>
+  <div class="limits-body">
+    <p class="limits-lead">Este simulador foi calibrado com a experiência de um dono de Song Plus e com dados publicados. Quanto mais gente contar como o carro se comporta na serra, mais perto da realidade ele fica. Envie também sugestões, críticas e elogios.</p>
+
+    <h3 class="contato-sub">O que mais ajuda a melhorar o simulador</h3>
+    <ul class="contrib">
+      <li><button type="button" data-assunto="relato"><strong>Como foi a sua subida.</strong> Diga qual carro (e a bateria, no caso do Song Plus 2024), qual serra e em que sentido. Conte também quanto de bateria você tinha no pé e no topo e em que modo estava. Ajuda saber a velocidade que manteve, se o motor a gasolina ligou, se o carro perdeu força e se ia com passageiros, bagagem ou ar-condicionado ligado. Mesmo um relato parcial já serve.</button></li>
+      <li><button type="button" data-assunto="relato"><strong>A gravação da subida.</strong> Se você grava trajetos no Strava, no Wikiloc ou em outro app de GPS, mande o link da atividade. Com a altitude medida na estrada, dá para corrigir o perfil da serra trecho a trecho.</button></li>
+      <li><button type="button" data-assunto="serra"><strong>Uma serra que falta.</strong> Diga o nome, a rodovia e onde começa e termina a subida.</button></li>
+      <li><button type="button" data-assunto="dado"><strong>Um dado errado.</strong> Peso, potência, bateria ou consumo que não bate com o carro, de preferência com a fonte (manual, ficha do fabricante, site de teste).</button></li>
+      <li><button type="button" data-assunto="problema"><strong>Problemas no site.</strong> O que você fez, o que aconteceu e em qual celular ou navegador.</button></li>
+    </ul>
+    <p class="contrib-hint">Toque num item para escolher o assunto.</p>
+
+    <form id="contatoForm" class="cf">
+      <div class="cf-field">
+        <label for="cfAssunto">Assunto</label>
+        <select id="cfAssunto" name="assunto" required>
+          <option value="" disabled selected>Escolha o assunto</option>
+          <option value="relato">Relato de subida</option>
+          <option value="serra">Nova serra</option>
+          <option value="dado">Correção de dado</option>
+          <option value="problema">Problema no site</option>
+          <option value="sugestao">Sugestão</option>
+          <option value="elogio">Elogio</option>
+        </select>
+      </div>
+      <fieldset class="cf-relato" id="cfRelato" hidden>
+        <div class="cf-field"><label for="cfCarro">Carro</label><select id="cfCarro" name="carro"></select></div>
+        <div class="cf-field"><label for="cfSerra">Serra</label><select id="cfSerra" name="serra"></select></div>
+        <div class="cf-pair">
+          <div class="cf-field"><label for="cfPe">Bateria no pé (%)</label><input id="cfPe" name="bateriaPe" type="number" inputmode="numeric" min="0" max="100" step="1"></div>
+          <div class="cf-field"><label for="cfTopo">Bateria no topo (%)</label><input id="cfTopo" name="bateriaTopo" type="number" inputmode="numeric" min="0" max="100" step="1"></div>
+        </div>
+      </fieldset>
+      <div class="cf-field">
+        <label for="cfMensagem">Mensagem</label>
+        <textarea id="cfMensagem" name="mensagem" rows="6" maxlength="4000" required></textarea>
+      </div>
+      <div class="cf-field" id="cfLinkField" hidden>
+        <label for="cfLink" id="cfLinkLabel">Link</label>
+        <input id="cfLink" name="link" type="text" inputmode="url" maxlength="300" autocomplete="off" placeholder="https://">
+      </div>
+      <div class="cf-pair">
+        <div class="cf-field"><label for="cfNome">Nome <small>opcional</small></label><input id="cfNome" name="nome" maxlength="80" autocomplete="name"></div>
+        <div class="cf-field"><label for="cfEmail">E-mail <small>opcional</small></label><input id="cfEmail" name="email" type="email" maxlength="120" autocomplete="email"></div>
+      </div>
+      <div class="cf-isca" aria-hidden="true"><label>Não preencha este campo <input name="site" tabindex="-1" autocomplete="off"></label></div>
+      <p class="cf-privacy">Seu e-mail é opcional e só serve para responder a você. Não publicamos nem repassamos as mensagens.</p>
+      <p class="cf-erro" id="cfErro" role="alert" hidden></p>
+      <button type="submit" class="limits-ok" id="cfEnviar">Enviar</button>
+    </form>
+
+    <div class="cf-ok" id="cfOk" role="status" hidden>
+      <p><strong>Mensagem enviada.</strong> Obrigado por ajudar a melhorar o simulador.</p>
+      <div class="cf-ok-actions">
+        <button type="button" class="cf-outra" id="cfOutra">Enviar outra</button>
+        <button type="button" class="limits-ok" data-close-contato>Fechar</button>
+      </div>
+    </div>
   </div>
 </dialog>
 
@@ -79,6 +152,11 @@
 
   <h2 class="section-title">Resultado no topo</h2>
   <section id="cards" class="cards" aria-live="polite"></section>
+
+  <aside class="cta" aria-label="Conte a sua experiência">
+    <p><strong>Você tem um desses carros e já subiu alguma dessas serras?</strong> Conte como foi.</p>
+    <button type="button" class="cta-btn" data-open-contato="relato">Contar minha subida</button>
+  </aside>
 
   <section class="panel ride" aria-label="Viagem animada">
     <div class="ride-head">
@@ -144,8 +222,8 @@
     <div class="chart"><canvas id="powerChart" role="img" aria-label="Potências por quilômetro do carro selecionado"></canvas></div>
   </section>
 
-  <p class="footnote">Estimativas, não medições. <button type="button" class="link-btn" data-open-limits>Limitações do modelo</button> · Fontes e premissas em <code>docs/</code>.</p>
-  <p class="footnote privacy"><span id="visitCount" class="visit-count" hidden></span> Contamos os acessos com data, hora e cidade aproximada; o endereço IP não é guardado.</p>
+  <p class="footnote">Estimativas, não medições. <button type="button" class="link-btn" data-open-limits>Limitações do modelo</button> · <button type="button" class="link-btn" data-open-contato>Fale conosco</button> · Fontes e premissas em <code>docs/</code>.</p>
+  <p class="footnote privacy"><span id="visitCount" class="visit-count" hidden></span> Contamos os acessos com data, hora e cidade aproximada; o endereço IP não é guardado. As mensagens do Fale conosco guardam o que você escreve e, se você informar, nome e e-mail.</p>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script type="module" src="src/ui/app.js"></script>

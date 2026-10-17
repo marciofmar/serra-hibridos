@@ -182,6 +182,55 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 .limits li::marker { color: var(--warn); font-weight: 700; }
 .limits-foot { margin: 14px 0 0; padding: 10px 12px; border-radius: var(--radius-sm); background: var(--accent-soft); font-size: 13.5px; color: var(--text-2); }
 .limits-ok { display: block; width: 100%; margin-top: 14px; padding: 11px; border: 0; border-radius: 999px; background: var(--accent); color: #fff; font: inherit; font-weight: 650; cursor: pointer; }
+/* ---------- Fale conosco ---------- */
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.hero-actions .limits-btn { margin-top: 0; }
+.contato-btn { display: inline-flex; align-items: center; gap: 10px; padding: 9px 14px; border: 1px solid rgba(255,255,255,0.35); border-radius: 12px;
+  background: rgba(255,255,255,0.10); color: #fff; font: inherit; font-size: 14px; font-weight: 650; text-align: left; cursor: pointer; }
+.contato-btn svg { flex: none; }
+.contato-btn small { display: block; font-size: 11.5px; font-weight: 500; color: rgba(255,255,255,0.75); }
+.contato-btn:hover { background: rgba(255,255,255,0.18); }
+
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 16px 0; padding: 14px 16px; border-radius: var(--radius);
+  background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+.cta p { flex: 1 1 260px; margin: 0; font-size: 14.5px; color: var(--text-2); }
+.cta strong { color: var(--text); }
+.cta-btn { flex: none; padding: 9px 16px; border: 0; border-radius: 999px; background: var(--accent); color: #fff; font: inherit; font-size: 14px; font-weight: 650; cursor: pointer; }
+
+.contato-sub { margin: 16px 0 8px; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.contrib { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.contrib button { display: block; width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2);
+  color: var(--text-2); font: inherit; font-size: 13.5px; line-height: 1.5; text-align: left; cursor: pointer; }
+.contrib button strong { color: var(--text); }
+.contrib button:hover { border-color: var(--accent); }
+.contrib-hint { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
+
+.cf { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); display: grid; gap: 12px; }
+.cf[hidden] { display: none; }
+.cf fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 12px; }
+.cf fieldset[hidden] { display: none; }
+.cf-field { display: grid; gap: 4px; min-width: 0; }
+.cf-field label { font-size: 13px; font-weight: 600; color: var(--text-2); }
+.cf-field label small { font-weight: 400; color: var(--muted); }
+.cf-field[hidden] { display: none; }
+.cf-field select { width: 100%; }
+.cf input, .cf textarea { width: 100%; box-sizing: border-box; font: inherit; font-size: 15px; color: var(--text); background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 11px; }
+.cf textarea { resize: vertical; min-height: 120px; line-height: 1.5; }
+.cf-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 420px) { .cf-pair { grid-template-columns: 1fr; } }
+.cf-isca { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.cf-privacy { margin: 0; font-size: 12.5px; color: var(--muted); }
+.cf-erro { margin: 0; padding: 8px 12px; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger); font-size: 13.5px; }
+.cf .limits-ok { margin-top: 0; }
+.cf .limits-ok:disabled { opacity: .6; cursor: wait; }
+.cf-ok { margin-top: 18px; padding: 14px; border-radius: var(--radius-sm); background: var(--accent-soft); }
+.cf-ok[hidden] { display: none; }
+.cf-ok p { margin: 0; }
+.cf-ok-actions { display: flex; gap: 10px; margin-top: 12px; }
+.cf-ok-actions .limits-ok { margin-top: 0; flex: 1; }
+.cf-outra { flex: 1; padding: 11px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--text); font: inherit; font-weight: 650; cursor: pointer; }
+
 .link-btn { padding: 0; border: 0; background: none; color: var(--accent); font: inherit; text-decoration: underline; cursor: pointer; }
 
 .footnote.privacy { margin-top: 6px; font-size: 11.5px; }

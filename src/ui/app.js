@@ -5,6 +5,7 @@ import { DRIVING_STYLES } from '../model/config.js';
 import { MODES, cssFill } from './modes.js';
 import { createRide } from './ride.js';
 import { contarAcesso } from './contador.js';
+import { initContato } from './contato.js';
 
 const $ = id => document.getElementById(id);
 const fmt1 = x => x.toFixed(1).replace('.', ',');
@@ -207,6 +208,7 @@ $('climb').addEventListener('change', applyPreset);
 applyPreset();
 
 contarAcesso($('visitCount'));
+initContato({ vehicles: VEHICLES, climbs: CLIMBS, currentClimb: () => $('climb').value });
 
 // ---------- Limitações do modelo ----------
 // Abre por botão ou pelo endereço com #limitacoes (link usado na divulgação)

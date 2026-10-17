@@ -1,10 +1,12 @@
 // Contador de acessos (serviço em contador/, na Cloudflare).
 // Conta uma vez por sessão do navegador e só no site publicado; em testes locais apenas lê o total.
-const CONTADOR_URL = 'https://serra-hibridos-contador.marciofmar.workers.dev';
+// Em teste local, ?worker=local aponta para o Worker rodando com 'npx wrangler@4 dev' (porta 8787).
+export const CONTADOR_URL = location.hostname === 'localhost' && new URLSearchParams(location.search).get('worker') === 'local'
+  ? 'http://localhost:8787'
+  : 'https://serra-hibridos-contador.marciofmar.workers.dev';
 const PUBLICADO = location.hostname === 'marciofmar.github.io';
 
 export async function contarAcesso(el) {
-  if (!CONTADOR_URL.startsWith('https://')) return;
   let jaContou = false;
   try { jaContou = sessionStorage.getItem('acessoContado') === '1'; } catch { /* sem storage */ }
   const registrar = PUBLICADO && !jaContou;
